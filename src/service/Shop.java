@@ -19,6 +19,9 @@ public class Shop {
     public  static ElectronicDao electronicDao;
     public  static ShoesDao shoesDao;
     public  static  ReadingDao readingDao;
+    public  static  OrderDao orderDao;
+
+
 
     public Shop() throws SQLException, ClassNotFoundException {
         userDao=new UserDao();
@@ -27,5 +30,6 @@ public class Shop {
         electronicDao=new ElectronicDao();
         readingDao=new ReadingDao();
         shoesDao=new ShoesDao();
+        orderDao=new OrderDao();
     }
 }

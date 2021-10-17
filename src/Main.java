@@ -1,4 +1,6 @@
-import exceptions.InvalidInput;
+import exceptions.InvalidEmailExp;
+import exceptions.InvalidInputExp;
+import exceptions.InvalidNameExp;
 import service.Shop;
 
 import java.util.InputMismatchException;
@@ -17,10 +19,14 @@ public class Main {
                 int selectMenu = scanner.nextInt();
                 switch (selectMenu){
                     case 1:
+                        getInputForRegister();
                     case 2:
+                        getInputForLogIn();
                     case 3:
+                        exit=true;
+                        break;
                     default:
-                        throw new InvalidInput("enter 1 - 3 ");
+                        throw new InvalidInputExp("enter 1 - 3 ");
                 }
 
 
@@ -28,5 +34,17 @@ public class Main {
                 System.out.println(e.getMessage());
             }
         }
+    }
+    public static void getInputForRegister(){
+        try {
+            String name = scanner.next();
+            String email = scanner.next();
+        }catch (InvalidEmailExp | InvalidNameExp e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+    public static void getInputForLogIn(){
+
     }
 }

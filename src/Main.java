@@ -112,7 +112,6 @@ public class Main {
                 if(id!=-1){
                     UserService userService=new UserService();
                     userService.showMenu(id);
-                    //TODO
                 }else {
                     System.out.println("this user not exist ! ");
                 }

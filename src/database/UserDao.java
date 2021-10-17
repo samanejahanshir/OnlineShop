@@ -13,7 +13,7 @@ public class UserDao extends DataBaseAccess {
 
     public int getUser(User user) throws SQLException {
         if (getConnection() != null) {
-            String sql = String.format("select idUser from user where name='%s' and email='%s'", user.getName(), user.getEmail());
+            String sql = String.format("select idUser from user where name='%s' and password='%s'", user.getName(), user.getPassword());
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             if (resultSet.next()) {

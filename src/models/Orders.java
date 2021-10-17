@@ -1,12 +1,13 @@
 package models;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Orders {
     private int id;
     private int userId;
     private int productId;
-    private Date date;
+    private LocalDateTime date;
     private String status;
 
     public Orders(int userId, int productId, String status) {
@@ -39,11 +40,11 @@ public class Orders {
         this.productId = productId;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

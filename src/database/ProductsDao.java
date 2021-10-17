@@ -1,5 +1,6 @@
 package database;
 
+import models.BuyStatus;
 import models.Products;
 import models.User;
 
@@ -75,5 +76,17 @@ public class ProductsDao extends DataBaseAccess {
 
         }
         return productsList;
+    }
+    public int UpdateProduct(int id,int stock) throws SQLException {
+        if (getConnection() != null) {
+            String sql = String.format("UPDATE online_shop.product SET stock=%d WHERE id=%d;", stock,id);
+            Statement statement = getConnection().createStatement();
+            int i = statement.executeUpdate(sql);
+            if (i!=0) {
+                return i;
+            }
+
+        }
+        return  -1;
     }
 }

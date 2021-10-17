@@ -6,6 +6,8 @@ import models.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductsDao extends  DataBaseAccess{
     public ProductsDao() throws ClassNotFoundException, SQLException {
@@ -37,5 +39,22 @@ public class ProductsDao extends  DataBaseAccess{
             return -1;
         }
         return -1;
+    }
+    public List<Products> getListProducts() throws SQLException {
+        List<Products> productsList=new ArrayList<>();
+        if(getConnection()!=null){
+            String sql = String.format("SELECT * FROM online_shop.product;");
+            Statement statement = getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            if(resultSet.next()){
+                do{
+                    Products products= new Products(resultSet.getString(2),resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5));
+                    products.setIdProduct(resultSet.getInt(1));
+                    productsList.add(products);
+                }while (resultSet.next());
+            }
+
+        }
+        return productsList;
     }
 }

@@ -56,4 +56,18 @@ public class Electronics extends Products {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Electronics{" +
+                ", Name='" +getName() +'\''+
+                ", price='" +getPrice() +'\''+
+                ", stock='" +getStock() +'\''+
+                ", idProduct=" + idProduct +
+                ", size='" + size + '\'' +
+                ", pow='" + pow + '\'' +
+                ", possibilities='" + possibilities + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

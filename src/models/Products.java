@@ -78,4 +78,15 @@ public class Products {
     public void setType(String type) {
         this.type = type;
     }*/
+
+    @Override
+    public String toString() {
+        return "Products{" +
+                "idProduct=" + idProduct +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", stock=" + stock +
+                ", grouping='" + grouping + '\'' +
+                '}';
+    }
 }

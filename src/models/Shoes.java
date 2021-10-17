@@ -54,4 +54,16 @@ public class Shoes extends  Products{
     public void setType(String type) {
         this.type = type;
     }
+    @Override
+    public String toString() {
+        return "Electronics{" +
+                ", Name='" +getName() +'\''+
+                ", price='" +getPrice() +'\''+
+                ", stock='" +getStock() +'\''+
+                ", idProduct=" + idProduct +
+                ", size='" + size + '\'' +
+                ", color='" + color + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

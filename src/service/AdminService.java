@@ -67,23 +67,28 @@ public class AdminService {
                         throw new InvalidInputExp("==> enter 1 - 3 for grouping!");
 
                 }
-                products = new Products(name, price, stock, Grouping.valueOf(grouping));
-                int idProduct = Shop.productsDao.setProduct(products);
+                products = new Products(name, price, stock,grouping);
+                Shop.productsDao.setProduct(products);
+                int idProduct=Shop.productsDao.getProduct(products);
                 if (idProduct != -1) {
                     products.setIdProduct(idProduct);
-                    switch (products.getGrouping()) {
-                        case ELECTRONIC:
-                            setElectronicProduct(products);
-                            //TODO
+                    int id=-1;
+                    switch (grouping) {
+                        case "Electronic":
+                            id=Shop.electronicDao.setElectronic(setElectronicProduct(products));
                             break;
-                        case SHOES:
-                            setShoesProduct(products);
-                            //TODO
+                        case "Shoes":
+                            id=Shop.shoesDao.setShoes(setShoesProduct(products));
                             break;
-                        case READING:
-                            setReadingProduct(products);
+                        case "Reading":
+                            id=Shop.readingDao.setReading(setReadingProduct(products));
                             break;
 
+                    }
+                    if(id!=-1){
+                        System.out.println("add product was successfully");
+                    }else {
+                        System.out.println("add product was failed");
                     }
 
                 }
@@ -120,7 +125,7 @@ public class AdminService {
 
                 }
 
-       return new Electronics(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), size, pow, possibilities, ElectronicType.valueOf(type),products.getIdProduct());
+       return new Electronics(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), size, pow, possibilities, type,products.getIdProduct());
 
 
     }
@@ -145,7 +150,7 @@ public class AdminService {
 
         }
 
-        return new Shoes(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), size, color, ShoesType.valueOf(type),products.getIdProduct());
+        return new Shoes(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), size, color, type,products.getIdProduct());
 
 
     }
@@ -172,7 +177,7 @@ public class AdminService {
 
         }
 
-        return new Reading(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), pages,size,material, ReadingType.valueOf(type),products.getIdProduct());
+        return new Reading(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), pages,size,material, type,products.getIdProduct());
 
 
     }

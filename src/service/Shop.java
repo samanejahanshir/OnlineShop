@@ -1,8 +1,6 @@
 package service;
 
-import database.AddressDao;
-import database.ProductsDao;
-import database.UserDao;
+import database.*;
 import models.Orders;
 import models.Products;
 import models.User;
@@ -18,10 +16,16 @@ public class Shop {
     public static UserDao userDao;
     public static AddressDao addressDao;
     public static ProductsDao productsDao;
+    public  static ElectronicDao electronicDao;
+    public  static ShoesDao shoesDao;
+    public  static  ReadingDao readingDao;
 
     public Shop() throws SQLException, ClassNotFoundException {
         userDao=new UserDao();
         addressDao=new AddressDao();
         productsDao=new ProductsDao();
+        electronicDao=new ElectronicDao();
+        readingDao=new ReadingDao();
+        shoesDao=new ShoesDao();
     }
 }

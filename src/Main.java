@@ -106,7 +106,7 @@ public class Main {
             User user = new User(name, password);
             if (name.equals("admin") && password.equals("admin")) {
                 AdminService adminService = new AdminService();
-                //TODO
+                adminService.showMenu();
             } else {
                 if(Shop.userDao.getUser(user)!=-1){
                     UserService userService=new UserService();

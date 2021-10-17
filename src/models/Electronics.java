@@ -6,9 +6,9 @@ public class Electronics extends Products {
     private String size;
     private String pow;
     private String possibilities;
-    private ElectronicType type;
+    private String type;
 
-    public Electronics(String name, int price, int stock, Grouping grouping, String size, String pow, String possibilities, ElectronicType type,int idProduct) {
+    public Electronics(String name, int price, int stock, String grouping, String size, String pow, String possibilities, String type,int idProduct) {
         super(name, price, stock, grouping);
         this.size = size;
         this.pow = pow;
@@ -18,7 +18,7 @@ public class Electronics extends Products {
     }
 
     public int getIdProduct() {
-        return id;
+        return idProduct;
     }
 
     public void setIdProduct(int idProduct) {
@@ -49,11 +49,11 @@ public class Electronics extends Products {
         this.possibilities = possibilities;
     }
 
-    public ElectronicType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ElectronicType type) {
+    public void setType(String type) {
         this.type = type;
     }
 }

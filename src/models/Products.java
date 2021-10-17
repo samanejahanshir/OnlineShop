@@ -5,11 +5,11 @@ public class Products {
     private  String name;
     private int price;
     private int stock;
-    private Grouping grouping;
+    private String grouping;
     //private  int idProduct;
     //private String type;
 
-    public Products(String name, int price, int stock, Grouping grouping) {
+    public Products(String name, int price, int stock, String grouping) {
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -55,11 +55,11 @@ public class Products {
         this.stock = stock;
     }
 
-    public Grouping getGrouping() {
+    public String getGrouping() {
         return grouping;
     }
 
-    public void setGrouping(Grouping grouping) {
+    public void setGrouping(String grouping) {
         this.grouping = grouping;
     }
 

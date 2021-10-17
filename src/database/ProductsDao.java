@@ -13,12 +13,12 @@ public class ProductsDao extends  DataBaseAccess{
     }
     public int  setProduct(Products products) throws SQLException {
         if (getConnection() != null) {
-            String sql = String.format("insert into product (name,price,stock,grouping) values('%s',%d,%d,'%s')",products.getName()
-            ,products.getPrice(),products.getStock(),products.getGrouping().getTitle());
+            String sql = String.format("INSERT INTO `online_shop`.`product` (`name`, `price`, `stock`, `grouping`) VALUES ('%s', %d, %d, '%s');",
+            products.getName(),products.getPrice(),products.getStock(),products.getGrouping());
             Statement statement = getConnection().createStatement();
             int i = statement.executeUpdate(sql);
             if (i != 0) {
-                return getProduct(products);
+                return i;
             }
         } else {
             return -1;
@@ -27,7 +27,7 @@ public class ProductsDao extends  DataBaseAccess{
     }
     public int getProduct(Products products) throws SQLException {
         if (getConnection() != null) {
-            String sql = String.format("select id from product where name='%s' and price=%d",products.getName(),products.getPrice());
+            String sql = String.format("SELECT * FROM online_shop.product WHERE name='%s' AND price=%d;",products.getName(),products.getPrice());
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             if (resultSet.next()) {

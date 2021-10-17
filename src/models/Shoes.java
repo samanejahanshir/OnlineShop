@@ -5,9 +5,9 @@ public class Shoes extends  Products{
     private int idProduct;
     private String size;
     private String color;
-    private ShoesType type;
+    private String type;
 
-    public Shoes(String name, int price, int stock, Grouping grouping, String size, String color, ShoesType type,int idProduct) {
+    public Shoes(String name, int price, int stock, String grouping, String size, String color, String type,int idProduct) {
         super(name, price, stock, grouping);
         this.size = size;
         this.color = color;
@@ -24,7 +24,7 @@ public class Shoes extends  Products{
     }
 
     public int getIdProduct() {
-        return id;
+        return idProduct;
     }
 
     public void setIdProduct(int idProduct) {
@@ -47,11 +47,11 @@ public class Shoes extends  Products{
         this.color = color;
     }
 
-    public ShoesType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ShoesType type) {
+    public void setType(String type) {
         this.type = type;
     }
 }

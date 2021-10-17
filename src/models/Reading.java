@@ -6,10 +6,10 @@ public class Reading extends Products{
     private  int pages;
     private  String size;
     private String material;
-    private  ReadingType type;
+    private  String type;
 
 
-    public Reading(String name, int price, int stock, Grouping grouping, int pages, String size, String material, ReadingType type1,int idProduct) {
+    public Reading(String name, int price, int stock, String grouping, int pages, String size, String material, String type1,int idProduct) {
         super(name, price, stock, grouping);
         this.pages = pages;
         this.size = size;
@@ -19,7 +19,7 @@ public class Reading extends Products{
     }
 
     public int getIdProduct() {
-        return id;
+        return idProduct;
     }
 
     public void setIdProduct(int idProduct) {
@@ -50,11 +50,11 @@ public class Reading extends Products{
         this.material = material;
     }
 
-    public ReadingType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ReadingType type) {
+    public void setType(String type) {
         this.type = type;
     }
 }

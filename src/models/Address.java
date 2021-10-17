@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Objects;
+
 public class Address {
     private  int id;
     private String city;
@@ -62,5 +64,18 @@ public class Address {
 
     public void setUserId(int userId) {
         UserId = userId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return id == address.id && UserId == address.UserId && city.equals(address.city) && postalCode.equals(address.postalCode) && street.equals(address.street) && tag.equals(address.tag);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, city, postalCode, street, tag, UserId);
     }
 }

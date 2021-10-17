@@ -1,25 +1,28 @@
 package models;
 
-public class Electronics {
+public class Electronics extends Products {
     private  int id;
+    private int idProduct;
     private String size;
     private String pow;
     private String possibilities;
     private ElectronicType type;
 
-    public Electronics(String size, String pow, String possibilities, ElectronicType type) {
+    public Electronics(String name, int price, int stock, Grouping grouping, String size, String pow, String possibilities, ElectronicType type,int idProduct) {
+        super(name, price, stock, grouping);
         this.size = size;
         this.pow = pow;
         this.possibilities = possibilities;
         this.type = type;
+        this.idProduct=idProduct;
     }
 
-    public int getId() {
+    public int getIdProduct() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdProduct(int idProduct) {
+        this.id = idProduct;
     }
 
     public String getSize() {

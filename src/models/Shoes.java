@@ -1,15 +1,18 @@
 package models;
 
-public class Shoes {
+public class Shoes extends  Products{
     private  int id;
+    private int idProduct;
     private String size;
     private String color;
     private ShoesType type;
 
-    public Shoes(String size, String color, ShoesType type) {
+    public Shoes(String name, int price, int stock, Grouping grouping, String size, String color, ShoesType type,int idProduct) {
+        super(name, price, stock, grouping);
         this.size = size;
         this.color = color;
         this.type = type;
+        this.idProduct=idProduct;
     }
 
     public int getId() {
@@ -18,6 +21,14 @@ public class Shoes {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIdProduct() {
+        return id;
+    }
+
+    public void setIdProduct(int idProduct) {
+        this.id = idProduct;
     }
 
     public String getSize() {

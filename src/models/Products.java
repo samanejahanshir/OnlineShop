@@ -1,29 +1,34 @@
 package models;
 
 public class Products {
-    private  int id;
+    private  int idProduct;
     private  String name;
-    private long price;
+    private int price;
     private int stock;
     private Grouping grouping;
-    private  int idProduct;
-    private String type;
+    //private  int idProduct;
+    //private String type;
 
-    public Products(String name, long price, int stock, Grouping grouping, int idProduct, String type) {
+    public Products(String name, int price, int stock, Grouping grouping) {
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.grouping = grouping;
+       // this.idProduct = idProduct;
+       // this.type = type;
+    }
+
+    public Products(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public int getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(int idProduct) {
         this.idProduct = idProduct;
-        this.type = type;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -34,11 +39,11 @@ public class Products {
         this.name = name;
     }
 
-    public long getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -58,7 +63,7 @@ public class Products {
         this.grouping = grouping;
     }
 
-    public int getIdProduct() {
+   /* public int getIdProduct() {
         return idProduct;
     }
 
@@ -66,11 +71,11 @@ public class Products {
         this.idProduct = idProduct;
     }
 
-    public String getType() {
+   /* public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
-    }
+    }*/
 }

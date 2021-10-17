@@ -9,11 +9,15 @@ public class User {
     private String email;
     private Set<Address> addresses;
 
-    public User(String name, String password, String email, Set<Address> addresses) {
+    public User(String name, String password, String email) {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.addresses = addresses;
+    }
+
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
 
     public int getId() {

@@ -4,6 +4,7 @@ import exceptions.InvalidNameExp;
 
 import models.Address;
 import models.User;
+import service.AdminService;
 import service.Shop;
 import service.UserService;
 
@@ -15,8 +16,19 @@ import java.util.Set;
 
 public class Main {
     static Scanner scanner = new Scanner(System.in);
-
     static boolean exit = false;
+   static Shop shop;
+
+    static {
+        try {
+            shop = new Shop();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Main() throws SQLException, ClassNotFoundException {
+    }
 
     public static void main(String[] args) {
         System.out.println("---------- Welcome to Online Shop ----------");
@@ -27,13 +39,15 @@ public class Main {
                 switch (selectMenu) {
                     case 1:
                         getInputForRegister();
+                        break;
                     case 2:
                         getInputForLogIn();
+                        break;
                     case 3:
                         exit = true;
                         break;
                     default:
-                        throw new InvalidInputExp("enter 1 - 3 ");
+                        throw new InvalidInputExp("==> enter 1 - 3 ");
                 }
 
 
@@ -51,7 +65,7 @@ public class Main {
             String email = scanner.next();
             System.out.println("password:");
             String password = scanner.next();
-            User user = new User(name, password, email, null);
+            User user = new User(name, password, email);
             if (Shop.userDao.getUser(user) != -1) {
                 System.out.println("** this user was exist ");
             } else {
@@ -73,9 +87,9 @@ public class Main {
                     String tag = scanner.next();
                     addresses.add(new Address(city, postalCode, street, tag, user.getId()));
                 }
-
-
-                UserService userService = new UserService();
+                if (!addresses.isEmpty()) {
+                    Shop.addressDao.setAddress(addresses);
+                }
             }
         } catch (NumberFormatException | InputMismatchException | InvalidEmailExp | InvalidNameExp | SQLException e) {
             System.out.println(e.getMessage());
@@ -84,6 +98,28 @@ public class Main {
     }
 
     public static void getInputForLogIn() {
+        try {
+            System.out.println("name :");
+            String name = scanner.next();
+            System.out.println("password:");
+            String password = scanner.next();
+            User user = new User(name, password);
+            if (name.equals("admin") && password.equals("admin")) {
+                AdminService adminService = new AdminService();
+                //TODO
+            } else {
+                if(Shop.userDao.getUser(user)!=-1){
+                    UserService userService=new UserService();
+                    //TODO
+                }else {
+                    System.out.println("this user not exist ! ");
+                }
 
+            }
+
+
+        }catch (InvalidNameExp | SQLException | InputMismatchException e){
+            System.out.println(e.getMessage());
+        }
     }
 }

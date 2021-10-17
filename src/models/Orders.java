@@ -8,7 +8,8 @@ public class Orders {
     private int productId;
     private String type;
     private Date date;
-    private
+    private BuyStatus status;
+
 
 
 }

@@ -1,4 +1,8 @@
 package database;
 
-public class ShoesDao {
+import java.sql.SQLException;
+
+public class ShoesDao extends  DataBaseAccess{
+    public ShoesDao() throws ClassNotFoundException, SQLException {
+    }
 }

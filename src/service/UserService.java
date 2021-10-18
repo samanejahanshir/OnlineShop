@@ -44,6 +44,8 @@ public class UserService {
 
             } catch (InvalidInputExp | NumberFormatException | SQLException | InputMismatchException e) {
                 System.out.println(e.getMessage());
+                scanner.nextLine();
+
             }
         }
     }
@@ -147,6 +149,8 @@ public class UserService {
             }
         } catch (NumberFormatException | SQLException e) {
             System.out.println(e.getMessage());
+            scanner.nextLine();
+
         }
     }
 
@@ -178,6 +182,8 @@ public class UserService {
 
             } catch (NumberFormatException | InputMismatchException | SQLException | InvalidInputExp e) {
                 System.out.println(e.getMessage());
+                scanner.nextLine();
+
             }
         }
 
@@ -200,7 +206,7 @@ public class UserService {
 
     }
     public void showByGrouping() throws SQLException {
-        System.out.println("Grouping : 1.Electronics\n2.Shoes\n3.Reading\n4.exit");
+        System.out.println("Grouping : \n1.Electronics\n2.Shoes\n3.Reading\n4.exit");
         String type="";
         try {
             int selectNum = scanner.nextInt();
@@ -219,8 +225,10 @@ public class UserService {
                     throw new InvalidInputExp("enter 1 - 4 !");
 
             }
-        }catch (InvalidInputExp | NumberFormatException e){
+        }catch (InvalidInputExp | NumberFormatException | InputMismatchException e){
             System.out.println(e.getMessage());
+            scanner.nextLine();
+
         }
         System.out.println("---------------- Products ---------------");
         for (Products listProduct : Shop.productsDao.getListProducts()) {
@@ -244,8 +252,10 @@ public class UserService {
                 System.out.println("----------------------------------------");
 
             }
-        }catch (NumberFormatException e){
+        }catch (NumberFormatException | InputMismatchException e){
             System.out.println(e.getMessage());
+            scanner.nextLine();
+
         }
 
 

@@ -8,8 +8,12 @@ import java.util.regex.Pattern;
 
 public class CheckInputValidation {
     public static boolean checkName(String name) {
-        if (name.length() < 2 && !Pattern.matches("[a-zA-Z]", name)) {
-            throw new InvalidNameExp("format name not valid ! ");
+        if (name.length() < 2 ) {
+            throw new InvalidNameExp("length of name < 2 !! ");
+        }
+        if (!(Pattern.matches("[a-zA-Z]{2,20}",name))){
+            throw new InvalidNameExp("there are a number or unauthorized character ");
+
         }
         return true;
     }

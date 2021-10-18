@@ -1,9 +1,11 @@
 package service;
 
 import exceptions.InvalidInputExp;
+import exceptions.InvalidNameExp;
 import models.*;
 
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AdminService {
@@ -29,8 +31,9 @@ public class AdminService {
                         throw new InvalidInputExp("==> enter 1 - 3 ! ");
                 }
 
-            } catch (InvalidInputExp | NumberFormatException | SQLException e) {
+            } catch (InvalidInputExp | NumberFormatException | SQLException | InputMismatchException | InvalidNameExp e) {
                 System.out.println(e.getMessage());
+                scanner.nextLine();
             }
         }
 
@@ -107,10 +110,13 @@ public class AdminService {
             int idProduct = scanner.nextInt();
             Products products=Shop.productsDao.getProductById(idProduct);
             if (products!=null){
-                Shop.productsDao.removeProduct(products);
+                if(Shop.productsDao.removeProduct(products)){
+                    System.out.println("delete product was successfully . ");
+                }
             }
-        }catch (NumberFormatException | SQLException e){
+        }catch (NumberFormatException | SQLException | InputMismatchException e){
             System.out.println(e.getMessage());
+            scanner.nextLine();
         }
 
     }

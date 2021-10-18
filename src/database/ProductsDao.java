@@ -110,20 +110,20 @@ public class ProductsDao extends DataBaseAccess {
             ResultSet resultSet = statement.executeQuery(sql);
             if (resultSet.next()) {
                 if(electronic) {
-                    return "Id : " + resultSet.getInt(1) + " Name : " + resultSet.getString(2)
-                            + " Price : " + resultSet.getInt(3) + " Stock : " + resultSet.getInt(4)
-                            + " Size : " +resultSet.getString(7)+" Pow : "+resultSet.getString(8)+" Possibilities : "+resultSet.getString(9);
+                    return "Id : " + resultSet.getInt(1) + ", Name : " + resultSet.getString(2)
+                            + ", Price : " + resultSet.getInt(3) + ", Stock : " + resultSet.getInt(4)
+                            + ", Size : " +resultSet.getString(7)+", Pow : "+resultSet.getString(8)+", Possibilities : "+resultSet.getString(9);
                 }
                 else if(reading){
-                    return "Id : " + resultSet.getInt(1) + " Name : " + resultSet.getString(2)
-                            + " Price : " + resultSet.getInt(3) + " Stock : " + resultSet.getInt(4)
-                            + " Pages : " +resultSet.getInt(7)+" Size : "+resultSet.getString(8)+" Material : "+resultSet.getString(9);
+                    return "Id : " + resultSet.getInt(1) + ", Name : " + resultSet.getString(2)
+                            + ", Price : " + resultSet.getInt(3) + ", Stock : " + resultSet.getInt(4)
+                            + ", Pages : " +resultSet.getInt(7)+", Size : "+resultSet.getString(8)+", Material : "+resultSet.getString(9);
 
 
                 }else  if(shoes){
-                    return "Id : " + resultSet.getInt(1) + " Name : " + resultSet.getString(2)
-                            + " Price : " + resultSet.getInt(3) + " Stock : " + resultSet.getInt(4)
-                            + " Size : " +resultSet.getString(7)+" Color : "+resultSet.getString(8);
+                    return "Id : " + resultSet.getInt(1) + ", Name : " + resultSet.getString(2)
+                            + ", Price : " + resultSet.getInt(3) + ", Stock : " + resultSet.getInt(4)
+                            + ", Size : " +resultSet.getString(7)+", Color : "+resultSet.getString(8);
                 }
 
             }

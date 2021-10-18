@@ -52,8 +52,10 @@ public class Main {
                 }
 
 
-            } catch (NumberFormatException | InputMismatchException e) {
+            } catch (NumberFormatException | InputMismatchException | InvalidInputExp e) {
                 System.out.println(e.getMessage());
+                scanner.nextLine();
+
             }
         }
     }
@@ -66,7 +68,8 @@ public class Main {
             String email = scanner.next();
             System.out.println("password:");
             String password = scanner.next();
-            if(CheckInputValidation.checkName(name) && CheckInputValidation.checkEmail(email)) {
+            CheckInputValidation.checkName(name);
+            CheckInputValidation.checkEmail(email);
                 User user = new User(name, password, email);
                 if (Shop.userDao.getUser(user) != -1) {
                     System.out.println("** this user was exist ");
@@ -87,15 +90,20 @@ public class Main {
                         String postalCode = scanner.next();
                         System.out.println("tag :");
                         String tag = scanner.next();
+                        CheckInputValidation.checkName(city);
                         addresses.add(new Address(city, postalCode, street, tag, user.getId()));
                     }
                     if (!addresses.isEmpty()) {
-                        Shop.addressDao.setAddress(addresses);
+                        if(Shop.addressDao.setAddress(addresses)!=-1){
+                            System.out.println("register was successfully .  ");
+                        }
                     }
                 }
-            }
-        } catch (NumberFormatException | InputMismatchException | InvalidEmailExp | InvalidNameExp | SQLException e) {
+
+        } catch (NumberFormatException | InputMismatchException | InvalidEmailExp | InvalidNameExp | SQLException | InvalidInputExp e) {
             System.out.println(e.getMessage());
+            scanner.nextLine();
+
         }
 
     }
@@ -122,8 +130,10 @@ public class Main {
             }
 
 
-        }catch (InvalidNameExp | SQLException | InputMismatchException e){
+        }catch (InvalidNameExp | SQLException | InputMismatchException | InvalidInputExp | NumberFormatException e){
             System.out.println(e.getMessage());
+            scanner.nextLine();
+
         }
     }
 }

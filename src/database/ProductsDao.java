@@ -131,5 +131,39 @@ public class ProductsDao extends DataBaseAccess {
         return null;
 
     }
+    public  boolean removeProduct(Products products) throws SQLException {
+        if (getConnection() != null) {
+            String sql="";
+            int i=0;
+            if(products.getGrouping().equals(Grouping.ELECTRONIC.getTitle())){
+                sql = String.format("DELETE FROM online_shop.electronic WHERE idProduct=%d",products.getIdProduct());
+                Statement statement = getConnection().createStatement();
+                i = statement.executeUpdate(sql);
+
+            }
+            else if(products.getGrouping().equals(Grouping.SHOES.getTitle())){
+                sql = String.format("DELETE FROM online_shop.shoes WHERE id_Product=%d",products.getIdProduct());
+                Statement statement = getConnection().createStatement();
+                i = statement.executeUpdate(sql);
+            }
+            else  if(products.getGrouping().equals(Grouping.READING.getTitle())){
+                sql = String.format("DELETE FROM online_shop.reading WHERE id_products=%d",products.getIdProduct());
+                Statement statement = getConnection().createStatement();
+                i = statement.executeUpdate(sql);
+
+            }
+            if(i!=0){
+                sql = String.format("DELETE FROM online_shop.product WHERE id=%d",products.getIdProduct());
+                Statement statement = getConnection().createStatement();
+                i = statement.executeUpdate(sql);
+                if (i != 0) {
+                    return true;
+                }
+
+            }
+
+        }
+        return  false;
+    }
 
 }

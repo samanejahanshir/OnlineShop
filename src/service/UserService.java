@@ -2,6 +2,7 @@ package service;
 
 import exceptions.InvalidInputExp;
 import models.BuyStatus;
+import models.Grouping;
 import models.Orders;
 import models.Products;
 
@@ -16,18 +17,23 @@ import java.util.Scanner;
 public class UserService {
     boolean exit = false;
     Scanner scanner = new Scanner(System.in);
+int idUser;
 
-    public void showMenu(int id) {
+    public UserService(int idUser) {
+        this.idUser = idUser;
+    }
+
+    public void showMenu() {
         while (!exit) {
             System.out.println("1.Show list products\n2.show buy basket\n3.Exit");
             try {
                 int selectMenu = scanner.nextInt();
                 switch (selectMenu) {
                     case 1:
-                        showListProducts(id);
+                        showListProducts();
                         break;
                     case 2:
-                        showBuyBasket(id);
+                        showBuyBasket();
                         break;
                     case 3:
                         exit = true;
@@ -42,7 +48,7 @@ public class UserService {
         }
     }
 
-    public void showListProducts(int id) throws SQLException {
+    public void showListProducts() throws SQLException {
         boolean exit=false;
         System.out.println("---------------- Products ---------------");
         for (Products listProduct : Shop.productsDao.getListProducts()) {
@@ -50,26 +56,31 @@ public class UserService {
         }
         System.out.println("------------------------------------");
         while (!exit) {
-            System.out.println("1.add to buy basket\n2.exit");
+            System.out.println("1.add to buy basket\n2.Show by grouping\n3.Show product's detail\n4exit");
             int selectNum = scanner.nextInt();
             switch (selectNum) {
                 case 1:
-                    addToBuyBasket(id);
+                    addToBuyBasket();
                     break;
                 case 2:
+                    showByGrouping();
+                case 3:
+                    showProductsDetail();
+                    break;
+                case 4:
                     exit=true;
                     break;
                 default:
-                    throw new InvalidInputExp("enter 1 or 2 for add to but basket or exit");
+                    throw new InvalidInputExp("enter 1 - 3 for add to but basket or exit");
             }
         }
     }
 
-    public void showBuyBasket(int id) throws SQLException {
+    public void showBuyBasket() throws SQLException {
         boolean exit = false;
         long totalPrice = 0;
         while (!exit) {
-            List<Orders> ordersList = Shop.orderDao.getListOrders(id);
+            List<Orders> ordersList = Shop.orderDao.getListOrders(idUser);
             if(ordersList.isEmpty()){
                 System.out.println("-------------------------");
                 System.out.println("your Buy Basket is empty . ");
@@ -90,10 +101,10 @@ public class UserService {
                 int selectNum = scanner.nextInt();
                 switch (selectNum) {
                     case 1:
-                        deleteFromBuyBasket(id);
+                        deleteFromBuyBasket();
                         break;
                     case 2:
-                        confirmBuyBasket(id,ordersList);
+                        confirmBuyBasket(ordersList);
                         exit=true;
                         break;
                     case 3:
@@ -107,15 +118,15 @@ public class UserService {
         }
     }
 
-    public void addToBuyBasket(int id) {
+    public void addToBuyBasket() {
         try {
-            List<Orders> orders=Shop.orderDao.getListOrders(id);
+            List<Orders> orders=Shop.orderDao.getListOrders(idUser);
             if(orders.size()<5) {
                 System.out.println("enter id of product : ");
                 int idProduct = scanner.nextInt();
                 Products products = Shop.productsDao.getProductById(idProduct);
                 if (products != null && products.getStock()>0) {
-                    Orders order = new Orders(id, idProduct, BuyStatus.WAITING.getTitle());
+                    Orders order = new Orders(idUser, idProduct, BuyStatus.WAITING.getTitle());
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                     LocalDateTime now = LocalDateTime.now();
                     order.setDate(now);
@@ -138,7 +149,7 @@ public class UserService {
         }
     }
 
-    public void deleteFromBuyBasket(int id) {
+    public void deleteFromBuyBasket() {
         boolean exit = false;
         while (!exit) {
             try {
@@ -147,9 +158,9 @@ public class UserService {
                 switch (selectNum) {
                     case 1:
                         System.out.println("Enter id of order");
-                        int idOrder = scanner.nextInt();
-                        if (Shop.orderDao.getOrderById(idOrder) != -1) {
-                            if (Shop.orderDao.deleteOrder(idOrder) != -1) {
+                        int idProduct = scanner.nextInt();
+                        if (Shop.orderDao.getOrderById(idProduct) != -1) {
+                            if (Shop.orderDao.deleteOrder(idProduct) != -1) {
                                 System.out.println("Delete  item was successfully");
                             }
                         } else {
@@ -171,9 +182,9 @@ public class UserService {
 
     }
 
-    public void confirmBuyBasket(int id,List<Orders> ordersList) throws SQLException {
+    public void confirmBuyBasket(List<Orders> ordersList) throws SQLException {
 
-        if (Shop.orderDao.UpdateOrders(id) != -1) {
+        if (Shop.orderDao.UpdateOrders(idUser) != -1) {
             System.out.println("Confirmation was successfully");
             for (Orders orders : ordersList) {
                 Products products=Shop.productsDao.getProductById(orders.getProductId());
@@ -185,6 +196,57 @@ public class UserService {
         } else {
             System.out.println("Confirmation was failed ! ");
         }
+
+    }
+    public void showByGrouping() throws SQLException {
+        System.out.println("Grouping : 1.Electronics\n2.Shoes\n3.Reading\n4.exit");
+        String type="";
+        try {
+            int selectNum = scanner.nextInt();
+            switch (selectNum){
+                case 1:
+                    type= Grouping.ELECTRONIC.getTitle();
+                    break;
+                case 2:
+                    type=Grouping.SHOES.getTitle();
+                    break;
+                case 3:
+                    type=Grouping.READING.getTitle();
+                    break;
+                case 4:
+                default:
+                    throw new InvalidInputExp("enter 1 - 4 !");
+
+            }
+        }catch (InvalidInputExp | NumberFormatException e){
+            System.out.println(e.getMessage());
+        }
+        System.out.println("---------------- Products ---------------");
+        for (Products listProduct : Shop.productsDao.getListProducts()) {
+            if(listProduct.getGrouping().equals(type)) {
+                System.out.println(listProduct);
+            }
+        }
+        System.out.println("------------------------------------");
+
+    }
+    public void showProductsDetail() throws SQLException {
+        boolean exit = false;
+        System.out.println("enter id of product : ");
+        try {
+            int idProduct = scanner.nextInt();
+            Products products=Shop.productsDao.getProductById(idProduct);
+            if(products!=null) {
+                String detail = Shop.productsDao.getDetailProduct(products.getGrouping(),idProduct);
+                System.out.println("---------------  Detail  ---------------");
+                System.out.println(detail);
+                System.out.println("----------------------------------------");
+
+            }
+        }catch (NumberFormatException e){
+            System.out.println(e.getMessage());
+        }
+
 
     }
 }

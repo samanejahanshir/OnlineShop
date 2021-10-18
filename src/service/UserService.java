@@ -91,6 +91,8 @@ public class UserService {
 
                 exit=true;
             }else {
+                System.out.println("number of orders : "+ ordersList.size());
+                System.out.println("---------------------------");
                 for (Orders orders : ordersList) {
                     Products products = Shop.productsDao.getProductById(orders.getProductId());
                     totalPrice += products.getPrice();

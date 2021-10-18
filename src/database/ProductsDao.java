@@ -1,6 +1,7 @@
 package database;
 
 import models.BuyStatus;
+import models.Grouping;
 import models.Products;
 import models.User;
 
@@ -77,16 +78,58 @@ public class ProductsDao extends DataBaseAccess {
         }
         return productsList;
     }
-    public int UpdateProduct(int id,int stock) throws SQLException {
+
+    public int UpdateProduct(int id, int stock) throws SQLException {
         if (getConnection() != null) {
-            String sql = String.format("UPDATE online_shop.product SET stock=%d WHERE id=%d;", stock,id);
+            String sql = String.format("UPDATE online_shop.product SET stock=%d WHERE id=%d;", stock, id);
             Statement statement = getConnection().createStatement();
             int i = statement.executeUpdate(sql);
-            if (i!=0) {
+            if (i != 0) {
                 return i;
             }
 
         }
-        return  -1;
+        return -1;
     }
+
+    public String getDetailProduct(String type, int id) throws SQLException {
+        if (getConnection() != null) {
+            String sql = "";
+            boolean electronic=false,reading=false,shoes=false;
+            if (type.equals(Grouping.ELECTRONIC.getTitle())) {
+                electronic=true;
+                sql = String.format("SELECT * FROM online_shop.product INNER JOIN online_shop.electronic WHERE product.id=electronic.idProduct AND electronic.idProduct=%d;",id);
+            } else if (type.equals(Grouping.READING.getTitle())) {
+                reading=true;
+                sql = String.format("SELECT * FROM online_shop.product INNER JOIN online_shop.reading WHERE product.id=reading.id_products AND reading.id_products=%d;",id);
+            } else if (type.equals(Grouping.SHOES.getTitle())) {
+                shoes=true;
+                sql = String.format("SELECT * FROM online_shop.product INNER JOIN online_shop.shoes WHERE product.id=shoes.id_Product AND shoes.id_Product=%d;",id);
+            }
+            Statement statement = getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            if (resultSet.next()) {
+                if(electronic) {
+                    return "Id : " + resultSet.getInt(1) + " Name : " + resultSet.getString(2)
+                            + " Price : " + resultSet.getInt(3) + " Stock : " + resultSet.getInt(4)
+                            + " Size : " +resultSet.getString(7)+" Pow : "+resultSet.getString(8)+" Possibilities : "+resultSet.getString(9);
+                }
+                else if(reading){
+                    return "Id : " + resultSet.getInt(1) + " Name : " + resultSet.getString(2)
+                            + " Price : " + resultSet.getInt(3) + " Stock : " + resultSet.getInt(4)
+                            + " Pages : " +resultSet.getInt(7)+" Size : "+resultSet.getString(8)+" Material : "+resultSet.getString(9);
+
+
+                }else  if(shoes){
+                    return "Id : " + resultSet.getInt(1) + " Name : " + resultSet.getString(2)
+                            + " Price : " + resultSet.getInt(3) + " Stock : " + resultSet.getInt(4)
+                            + " Size : " +resultSet.getString(7)+" Color : "+resultSet.getString(8);
+                }
+
+            }
+        }
+        return null;
+
+    }
+
 }

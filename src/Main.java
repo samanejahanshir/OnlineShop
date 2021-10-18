@@ -110,8 +110,8 @@ public class Main {
             } else {
                 int id=Shop.userDao.getUser(user);
                 if(id!=-1){
-                    UserService userService=new UserService();
-                    userService.showMenu(id);
+                    UserService userService=new UserService(id);
+                    userService.showMenu();
                 }else {
                     System.out.println("this user not exist ! ");
                 }

@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class UserService {
     boolean exit = false;
     Scanner scanner = new Scanner(System.in);
-int idUser;
+    public int idUser;
 
     public UserService(int idUser) {
         this.idUser = idUser;
@@ -42,7 +42,7 @@ int idUser;
                         throw new InvalidInputExp("==> enter 1 - 3 ! ");
                 }
 
-            } catch (InvalidInputExp | NumberFormatException | SQLException e) {
+            } catch (InvalidInputExp | NumberFormatException | SQLException | InputMismatchException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -56,7 +56,7 @@ int idUser;
         }
         System.out.println("------------------------------------");
         while (!exit) {
-            System.out.println("1.add to buy basket\n2.Show by grouping\n3.Show product's detail\n4exit");
+            System.out.println("1.add to buy basket\n2.Show by grouping\n3.Show product's detail\n4.exit");
             int selectNum = scanner.nextInt();
             switch (selectNum) {
                 case 1:
@@ -64,6 +64,7 @@ int idUser;
                     break;
                 case 2:
                     showByGrouping();
+                    break;
                 case 3:
                     showProductsDetail();
                     break;

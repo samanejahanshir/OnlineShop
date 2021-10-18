@@ -5,6 +5,7 @@ import exceptions.InvalidNameExp;
 import models.Address;
 import models.User;
 import service.AdminService;
+import service.CheckInputValidation;
 import service.Shop;
 import service.UserService;
 
@@ -65,30 +66,32 @@ public class Main {
             String email = scanner.next();
             System.out.println("password:");
             String password = scanner.next();
-            User user = new User(name, password, email);
-            if (Shop.userDao.getUser(user) != -1) {
-                System.out.println("** this user was exist ");
-            } else {
-                int id = Shop.userDao.setUser(user);
-                if (id != -1) {
-                    user.setId(id);
-                }
-                System.out.println("enter number of address : ");
-                int number = scanner.nextInt();
-                Set<Address> addresses = new HashSet<>();
-                for (int i = 0; i < number; i++) {
-                    System.out.println("city :");
-                    String city = scanner.next();
-                    System.out.println("street :");
-                    String street = scanner.next();
-                    System.out.println("postalCode :");
-                    String postalCode = scanner.next();
-                    System.out.println("tag :");
-                    String tag = scanner.next();
-                    addresses.add(new Address(city, postalCode, street, tag, user.getId()));
-                }
-                if (!addresses.isEmpty()) {
-                    Shop.addressDao.setAddress(addresses);
+            if(CheckInputValidation.checkName(name) && CheckInputValidation.checkEmail(email)) {
+                User user = new User(name, password, email);
+                if (Shop.userDao.getUser(user) != -1) {
+                    System.out.println("** this user was exist ");
+                } else {
+                    int id = Shop.userDao.setUser(user);
+                    if (id != -1) {
+                        user.setId(id);
+                    }
+                    System.out.println("enter number of address : ");
+                    int number = scanner.nextInt();
+                    Set<Address> addresses = new HashSet<>();
+                    for (int i = 0; i < number; i++) {
+                        System.out.println("city :");
+                        String city = scanner.next();
+                        System.out.println("street :");
+                        String street = scanner.next();
+                        System.out.println("postalCode :");
+                        String postalCode = scanner.next();
+                        System.out.println("tag :");
+                        String tag = scanner.next();
+                        addresses.add(new Address(city, postalCode, street, tag, user.getId()));
+                    }
+                    if (!addresses.isEmpty()) {
+                        Shop.addressDao.setAddress(addresses);
+                    }
                 }
             }
         } catch (NumberFormatException | InputMismatchException | InvalidEmailExp | InvalidNameExp | SQLException e) {

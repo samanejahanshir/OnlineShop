@@ -1,12 +1,16 @@
 package models;
 
+import javax.persistence.*;
 import java.util.Set;
-
+@Entity
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String password;
     private String email;
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
     private Set<Address> addresses;
 
     public User(String name, String password, String email) {
@@ -18,6 +22,10 @@ public class User {
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+    }
+
+    public User() {
+
     }
 
     public int getId() {

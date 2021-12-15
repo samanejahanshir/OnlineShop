@@ -121,6 +121,13 @@ public class ProductsDao extends DataBaseAccess {
 
         }
         return -1;
+      /*  Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(driver);
+        transaction.commit();
+        session.close();
+        return 1;*/
+
     }
 
     public String getDetailProduct(String type, int id) throws SQLException {

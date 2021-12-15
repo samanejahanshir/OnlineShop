@@ -77,7 +77,7 @@ public Orders getOrderById(int id) throws SQLException {
     return resultList.get(0);
 }
     public int deleteOrder(int id) throws SQLException {
-        if (getConnection() != null) {
+       /* if (getConnection() != null) {
             String sql = String.format("DELETE  FROM online_shop.order WHERE idOrder=%d;", id);
             Statement statement = getConnection().createStatement();
             int i = statement.executeUpdate(sql);
@@ -86,7 +86,13 @@ public Orders getOrderById(int id) throws SQLException {
             }
 
         }
-        return  -1;
+        return  -1;*/
+        Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.remove(getOrderById(id));
+        transaction.commit();
+        session.close();
+        return 1;
 
     }
     public int UpdateOrders(int id) throws SQLException {

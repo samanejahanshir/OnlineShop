@@ -71,13 +71,13 @@ public class Main {
             CheckInputValidation.checkName(name);
             CheckInputValidation.checkEmail(email);
                 User user = new User(name, password, email);
-                if (Shop.userDao.getUser(user) != -1) {
+                /*if (Shop.userDao.getUser(user) != -1) {
                     System.out.println("** this user was exist ");
-                } else {
-                    int id = Shop.userDao.setUser(user);
+                } else {*/
+                   /* int id = Shop.userDao.setUser(user);
                     if (id != -1) {
                         user.setId(id);
-                    }
+                    }*/
                     System.out.println("enter number of address : ");
                     int number = scanner.nextInt();
                     Set<Address> addresses = new HashSet<>();
@@ -91,14 +91,22 @@ public class Main {
                         System.out.println("tag :");
                         String tag = scanner.next();
                         CheckInputValidation.checkName(city);
-                        addresses.add(new Address(city, postalCode, street, tag, user.getId()));
+                        Address address=new Address(city, postalCode, street, tag, user.getId());
+                        address.setUser(user);
+                        addresses.add(address);
                     }
-                    if (!addresses.isEmpty()) {
+                    user.setAddresses(addresses);
+            int id = Shop.userDao.setUser(user);
+            if (id != -1) {
+                user.setId(id);
+            }
+
+                   /* if (!addresses.isEmpty()) {
                         if(Shop.addressDao.setAddress(addresses)!=-1){
                             System.out.println("register was successfully .  ");
                         }
-                    }
-                }
+                    }*/
+               // }
 
         } catch (NumberFormatException | InputMismatchException | InvalidEmailExp | InvalidNameExp | SQLException | InvalidInputExp e) {
             System.out.println(e.getMessage());

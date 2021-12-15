@@ -48,9 +48,9 @@ public class AdminService {
             System.out.println("price :");
             int price = scanner.nextInt();
             if(CheckInputValidation.checkName(name)) {
-                if (Shop.productsDao.getProduct(new Products(name, price)) != -1) {
+               /* if (Shop.productsDao.getProduct(new Products(name, price)) != -1) {
                     System.out.println("** this product is exist ");
-                } else {
+                } else {*/
                     System.out.println("stock of product : ");
                     int stock = scanner.nextInt();
                     System.out.println("select grouping : \n1.Electronic\n2.Shoes\n3.Reading");
@@ -73,9 +73,9 @@ public class AdminService {
                     }
                     products = new Products(name, price, stock, grouping);
                     Shop.productsDao.setProduct(products);
-                    int idProduct = Shop.productsDao.getProduct(products);
-                    if (idProduct != -1) {
-                        products.setIdProduct(idProduct);
+                 /*  int idProduct = Shop.productsDao.getProduct(products);
+                    if (idProduct != -1) {*/
+                      // products.setIdProduct(idProduct);
                         int id = -1;
                         switch (grouping) {
                             case "Electronic":
@@ -89,17 +89,17 @@ public class AdminService {
                                 break;
 
                         }
-                        if (id != -1) {
+                       // if (id != -1) {
                             System.out.println("add product was successfully");
-                        } else {
-                            System.out.println("add product was failed");
-                        }
+                       // } else {
+                            //System.out.println("add product was failed");
+                       // }
 
-                    }
+                    //}
 
                 }
             }
-        }
+        //}
 
 
     }

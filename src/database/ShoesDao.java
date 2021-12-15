@@ -2,6 +2,8 @@ package database;
 
 import models.Electronics;
 import models.Shoes;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +14,7 @@ public class ShoesDao extends  DataBaseAccess{
         super();
     }
     public int  setShoes(Shoes shoes) throws SQLException {
-        if (getConnection() != null) {
+       /* if (getConnection() != null) {
             String sql = String.format("insert into shoes (size,color,type,id_Product) values('%s','%s','%s',%d)",shoes.getSize(),
                     shoes.getColor(),shoes.getType(),shoes.getIdProduct());
             Statement statement = getConnection().createStatement();
@@ -23,7 +25,13 @@ public class ShoesDao extends  DataBaseAccess{
         } else {
             return -1;
         }
-        return -1;
+        return -1;*/
+        Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        int id=(int)session.save(shoes);
+        transaction.commit();
+        session.close();
+        return id;
     }
 
     public int getShoes(Shoes shoes) throws SQLException {

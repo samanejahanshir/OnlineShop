@@ -1,6 +1,8 @@
 package database;
 
 import models.User;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +28,7 @@ public class UserDao extends DataBaseAccess {
     }
 
     public int setUser(User user) throws SQLException {
-        if (getConnection() != null) {
+       /* if (getConnection() != null) {
             String sql = String.format("insert into user (name,password,email) values('%s','%s','%s')", user.getName(), user.getPassword(), user.getEmail());
             Statement statement = getConnection().createStatement();
             int i = statement.executeUpdate(sql);
@@ -36,6 +38,12 @@ public class UserDao extends DataBaseAccess {
         } else {
             return -1;
         }
-        return -1;
+        return -1;*/
+        Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        int id=(int)session.save(user);
+        transaction.commit();
+        session.close();
+        return id;
     }
 }

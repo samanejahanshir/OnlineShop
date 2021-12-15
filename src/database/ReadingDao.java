@@ -2,6 +2,8 @@ package database;
 
 import models.Reading;
 import models.Shoes;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +14,7 @@ public class ReadingDao extends  DataBaseAccess{
         super();
     }
     public int  setReading(Reading reading) throws SQLException {
-        if (getConnection() != null) {
+       /* if (getConnection() != null) {
             String sql = String.format("insert into reading (pages,size,material,type,id_products) values(%d,'%s','%s','%s',%d)",reading.getPages(),reading.getSize(),
                     reading.getMaterial(),reading.getType(),reading.getIdProduct());
             Statement statement = getConnection().createStatement();
@@ -23,7 +25,13 @@ public class ReadingDao extends  DataBaseAccess{
         } else {
             return -1;
         }
-        return -1;
+        return -1;*/
+        Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        int id=(int)session.save(reading);
+        transaction.commit();
+        session.close();
+        return id;
     }
 
     public int getReading(Reading reading) throws SQLException {

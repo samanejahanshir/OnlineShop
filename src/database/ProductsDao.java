@@ -4,6 +4,8 @@ import models.BuyStatus;
 import models.Grouping;
 import models.Products;
 import models.User;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +19,7 @@ public class ProductsDao extends DataBaseAccess {
     }
 
     public int setProduct(Products products) throws SQLException {
-        if (getConnection() != null) {
+       /* if (getConnection() != null) {
             String sql = String.format("INSERT INTO `online_shop`.`product` (`name`, `price`, `stock`, `grouping`) VALUES ('%s', %d, %d, '%s');",
                     products.getName(), products.getPrice(), products.getStock(), products.getGrouping());
             Statement statement = getConnection().createStatement();
@@ -28,7 +30,13 @@ public class ProductsDao extends DataBaseAccess {
         } else {
             return -1;
         }
-        return -1;
+        return -1;*/
+        Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        int id=(int)session.save(products);
+        transaction.commit();
+        session.close();
+        return id;
     }
 
     public int getProduct(Products products) throws SQLException {
@@ -132,7 +140,7 @@ public class ProductsDao extends DataBaseAccess {
 
     }
     public  boolean removeProduct(Products products) throws SQLException {
-        if (getConnection() != null) {
+      /*  if (getConnection() != null) {
             String sql="";
             int i=0;
             if(products.getGrouping().equals(Grouping.ELECTRONIC.getTitle())){
@@ -163,7 +171,14 @@ public class ProductsDao extends DataBaseAccess {
             }
 
         }
-        return  false;
+        return  false;*/
+        Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.remove(products);
+        transaction.commit();
+        session.close();
+        return true;
+
     }
 
 }

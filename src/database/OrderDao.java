@@ -3,6 +3,8 @@ package database;
 import models.BuyStatus;
 import models.Orders;
 import models.Products;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,7 +36,7 @@ public class OrderDao extends DataBaseAccess {
     }
 
     public int setOrder(Orders orders) throws SQLException {
-        if (getConnection() != null) {
+       /* if (getConnection() != null) {
             String sql = String.format("INSERT INTO `online_shop`.`order` (`idUser`, `idProduct`, `status`, `date`) VALUES (%d, %d,'%s','%s');",
                     orders.getUserId(), orders.getProductId(), orders.getStatus(), orders.getDate().toString());
             Statement statement = getConnection().createStatement();
@@ -45,7 +47,13 @@ public class OrderDao extends DataBaseAccess {
         } else {
             return -1;
         }
-        return -1;
+        return -1;*/
+        Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        int id=(int)session.save(orders);
+        transaction.commit();
+        session.close();
+        return id;
     }
 public int getOrderById(int id) throws SQLException {
     if (getConnection() != null) {

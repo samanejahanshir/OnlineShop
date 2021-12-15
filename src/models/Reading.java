@@ -1,5 +1,8 @@
 package models;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Reading extends Products{
     private  int id;
     private int idProduct;
@@ -16,6 +19,10 @@ public class Reading extends Products{
         this.material = material;
         this.type = type1;
         this.idProduct=idProduct;
+    }
+
+    public Reading() {
+
     }
 
     public int getIdProduct() {

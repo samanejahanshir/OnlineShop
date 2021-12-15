@@ -1,13 +1,16 @@
 package database;
 
 import models.Electronics;
+import models.Orders;
 import models.Products;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class ElectronicDao extends DataBaseAccess {
     public ElectronicDao() throws ClassNotFoundException, SQLException {
@@ -36,8 +39,8 @@ public class ElectronicDao extends DataBaseAccess {
         return id;
     }
 
-    public int getElectronic(Electronics electronics) throws SQLException {
-        if (getConnection() != null) {
+    public Electronics getElectronic(Electronics electronics) throws SQLException {
+       /* if (getConnection() != null) {
             String sql = String.format("select id from electronic where idProduct=%d", electronics.getIdProduct());
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -47,6 +50,14 @@ public class ElectronicDao extends DataBaseAccess {
         } else {
             return -1;
         }
-        return -1;
+        return -1;*/
+        Session session=DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction=session.beginTransaction();
+        Query<Electronics> query = session.createQuery("from Electronics e where e.id=:id", Electronics.class);
+        query.setParameter("id",electronics.getIdProduct());
+        List<Electronics> resultList = query.getResultList();
+        transaction.commit();
+        session.close();
+        return resultList.get(0);
     }
 }

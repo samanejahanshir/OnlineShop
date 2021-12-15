@@ -1,11 +1,9 @@
 package database;
 
-import models.BuyStatus;
-import models.Grouping;
-import models.Products;
-import models.User;
+import models.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,8 +37,8 @@ public class ProductsDao extends DataBaseAccess {
         return id;
     }
 
-    public int getProduct(Products products) throws SQLException {
-        if (getConnection() != null) {
+    public Products getProduct(Products products) throws SQLException {
+      /*  if (getConnection() != null) {
             String sql = String.format("SELECT * FROM online_shop.product WHERE name='%s' AND price=%d;", products.getName(), products.getPrice());
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -50,11 +48,20 @@ public class ProductsDao extends DataBaseAccess {
         } else {
             return -1;
         }
-        return -1;
+        return -1;*/
+        Session session=DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction=session.beginTransaction();
+        Query<Products> query = session.createQuery("from Products p where p.name=:name and p.price=:price", Products.class);
+        query.setParameter("name",products.getName());
+        query.setParameter("price",products.getPrice());
+        List<Products> resultList = query.getResultList();
+        transaction.commit();
+        session.close();
+        return resultList.get(0);
     }
 
     public Products getProductById(int id) throws SQLException {
-        if (getConnection() != null) {
+       /* if (getConnection() != null) {
             String sql = String.format("SELECT * FROM online_shop.product WHERE id=%d", id);
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -66,7 +73,16 @@ public class ProductsDao extends DataBaseAccess {
         } else {
             return null;
         }
-        return null;
+        return null;*/
+        Session session=DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction=session.beginTransaction();
+        Query<Products> query = session.createQuery("from Products p where p.id=:id", Products.class);
+        query.setParameter("id",id);
+        List<Products> resultList = query.getResultList();
+        transaction.commit();
+        session.close();
+        return resultList.get(0);
+
     }
 
     public List<Products> getListProducts() throws SQLException {

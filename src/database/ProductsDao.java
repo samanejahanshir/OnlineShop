@@ -86,7 +86,7 @@ public class ProductsDao extends DataBaseAccess {
     }
 
     public List<Products> getListProducts() throws SQLException {
-        List<Products> productsList = new ArrayList<>();
+       /* List<Products> productsList = new ArrayList<>();
         if (getConnection() != null) {
             String sql = String.format("SELECT * FROM online_shop.product;");
             Statement statement = getConnection().createStatement();
@@ -100,7 +100,14 @@ public class ProductsDao extends DataBaseAccess {
             }
 
         }
-        return productsList;
+        return productsList;*/
+        Session session=DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction=session.beginTransaction();
+        Query<Products> query = session.createQuery("from Products", Products.class);
+        List<Products> resultList = query.getResultList();
+        transaction.commit();
+        session.close();
+        return resultList;
     }
 
     public int UpdateProduct(int id, int stock) throws SQLException {

@@ -96,7 +96,7 @@ public Orders getOrderById(int id) throws SQLException {
 
     }
     public int UpdateOrders(int id) throws SQLException {
-        if (getConnection() != null) {
+       /* if (getConnection() != null) {
             String sql = String.format("UPDATE online_shop.order SET status='%s' WHERE idUser=%d;", BuyStatus.END.getTitle(),id);
             Statement statement = getConnection().createStatement();
             int i = statement.executeUpdate(sql);
@@ -105,7 +105,15 @@ public Orders getOrderById(int id) throws SQLException {
             }
 
         }
-        return  -1;
+        return  -1;*/
+        Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        Orders orders=getOrderById(id);
+        orders.setStatus(BuyStatus.END.getTitle());
+        session.update(orders);
+        transaction.commit();
+        session.close();
+        return 1;
     }
 
 

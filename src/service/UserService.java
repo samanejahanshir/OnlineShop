@@ -166,7 +166,8 @@ public class UserService {
                     case 1:
                         System.out.println("Enter id of order");
                         int idProduct = scanner.nextInt();
-                        if (Shop.orderDao.getOrderById(idProduct) != -1) {
+                        Orders orders=Shop.orderDao.getOrderById(idProduct);
+                        if ( orders!= null) {
                             if (Shop.orderDao.deleteOrder(idProduct) != -1) {
                                 System.out.println("Delete  item was successfully");
                             }

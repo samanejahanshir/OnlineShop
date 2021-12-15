@@ -5,6 +5,7 @@ import models.Orders;
 import models.Products;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,8 +56,8 @@ public class OrderDao extends DataBaseAccess {
         session.close();
         return id;
     }
-public int getOrderById(int id) throws SQLException {
-    if (getConnection() != null) {
+public Orders getOrderById(int id) throws SQLException {
+   /* if (getConnection() != null) {
         String sql = String.format("SELECT * FROM online_shop.order WHERE idOrder=%d;", id);
         Statement statement = getConnection().createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
@@ -65,7 +66,15 @@ public int getOrderById(int id) throws SQLException {
         }
 
     }
-    return  -1;
+    return  -1;*/
+    Session session=DataBaseAccess.getSessionFactory().openSession();
+    Transaction transaction=session.beginTransaction();
+    Query<Orders> query = session.createQuery("from Orders order where order.id=:id", Orders.class);
+    query.setParameter("id",id);
+    List<Orders> resultList = query.getResultList();
+    transaction.commit();
+    session.close();
+    return resultList.get(0);
 }
     public int deleteOrder(int id) throws SQLException {
         if (getConnection() != null) {

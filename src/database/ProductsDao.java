@@ -111,7 +111,7 @@ public class ProductsDao extends DataBaseAccess {
     }
 
     public int UpdateProduct(int id, int stock) throws SQLException {
-        if (getConnection() != null) {
+       /* if (getConnection() != null) {
             String sql = String.format("UPDATE online_shop.product SET stock=%d WHERE id=%d;", stock, id);
             Statement statement = getConnection().createStatement();
             int i = statement.executeUpdate(sql);
@@ -120,13 +120,15 @@ public class ProductsDao extends DataBaseAccess {
             }
 
         }
-        return -1;
-      /*  Session session = DataBaseAccess.getSessionFactory().openSession();
+        return -1;*/
+        Session session = DataBaseAccess.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        session.update(driver);
+        Products products=getProductById(id);
+        products.setStock(stock);
+        session.update(products);
         transaction.commit();
         session.close();
-        return 1;*/
+        return 1;
 
     }
 

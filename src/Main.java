@@ -127,9 +127,9 @@ public class Main {
                 AdminService adminService = new AdminService();
                 adminService.showMenu();
             } else {
-                int id=Shop.userDao.getUser(user);
-                if(id!=-1){
-                    UserService userService=new UserService(id);
+                user=Shop.userDao.getUser(user);
+                if(user!=null){
+                    UserService userService=new UserService(user.getId());
                     userService.showMenu();
                 }else {
                     System.out.println("this user not exist ! ");

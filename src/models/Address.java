@@ -1,14 +1,34 @@
 package models;
 
+import javax.persistence.*;
 import java.util.Objects;
-
+@Entity
 public class Address {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  int id;
     private String city;
     private  String postalCode;
     private String street;
     private String tag;
+    @Transient
     private int UserId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User user;
+
+    public Address() {
+
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 
     public Address(String city, String postalCode, String street, String tag, int userId) {
         this.city = city;

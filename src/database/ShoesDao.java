@@ -2,12 +2,15 @@ package database;
 
 import models.Electronics;
 import models.Shoes;
+import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 public class ShoesDao extends  DataBaseAccess{
     public ShoesDao() throws ClassNotFoundException, SQLException {
@@ -34,8 +37,8 @@ public class ShoesDao extends  DataBaseAccess{
         return id;
     }
 
-    public int getShoes(Shoes shoes) throws SQLException {
-        if (getConnection() != null) {
+    public Shoes getShoes(Shoes shoes) throws SQLException {
+       /* if (getConnection() != null) {
             String sql = String.format("select id from shoes where id_Product=%d",shoes.getIdProduct());
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -45,6 +48,14 @@ public class ShoesDao extends  DataBaseAccess{
         } else {
             return -1;
         }
-        return -1;
+        return -1;*/
+        Session session=DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction=session.beginTransaction();
+        Query<Shoes> query = session.createQuery("from Shoes shose where shose.id=:id", Shoes.class);
+        query.setParameter("id",shoes.getId());
+        List<Shoes> resultList = query.getResultList();
+        transaction.commit();
+        session.close();
+        return resultList.get(0);
     }
 }

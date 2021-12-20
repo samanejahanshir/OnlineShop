@@ -90,7 +90,7 @@ public class UserService {
                 System.out.println("number of orders : "+ ordersList.size());
                 System.out.println("---------------------------");
                 for (Orders orders : ordersList) {
-                    Products products = Shop.productsDao.getProductById(orders.getProductId());
+                    Products products = Shop.productsDao.getProductById(orders.getProducts().getId());
                     totalPrice += products.getPrice();
                     System.out.println("id order : " + orders.getId() + " " + products);
                 }
@@ -130,6 +130,7 @@ public class UserService {
                     Orders order = new Orders(user.getId(), idProduct, BuyStatus.WAITING.getTitle());
                     user.getOrders().add(order);
                     order.setUser(user);
+                    order.setProducts(products);
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                     LocalDateTime now = LocalDateTime.now();
                     order.setDate(now);

@@ -33,10 +33,10 @@ public class OrderDao extends DataBaseAccess {
             }
 
         }*/
-        Session session=DataBaseAccess.getSessionFactory().openSession();
-        Transaction transaction=session.beginTransaction();
+        Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
         Query<Orders> query = session.createQuery("from Orders order where order.user.id=:id", Orders.class);
-        query.setParameter("id",id);
+        query.setParameter("id", id);
         ordersList = query.getResultList();
         transaction.commit();
         session.close();
@@ -58,12 +58,13 @@ public class OrderDao extends DataBaseAccess {
         return -1;*/
         Session session = DataBaseAccess.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        int id=(int)session.save(orders);
+        int id = (int) session.save(orders);
         transaction.commit();
         session.close();
         return id;
     }
-public Orders getOrderById(int id) throws SQLException {
+
+    public Orders getOrderById(int id) throws SQLException {
    /* if (getConnection() != null) {
         String sql = String.format("SELECT * FROM online_shop.order WHERE idOrder=%d;", id);
         Statement statement = getConnection().createStatement();
@@ -74,15 +75,16 @@ public Orders getOrderById(int id) throws SQLException {
 
     }
     return  -1;*/
-    Session session=DataBaseAccess.getSessionFactory().openSession();
-    Transaction transaction=session.beginTransaction();
-    Query<Orders> query = session.createQuery("from Orders order where order.id=:id", Orders.class);
-    query.setParameter("id",id);
-    List<Orders> resultList = query.getResultList();
-    transaction.commit();
-    session.close();
-    return resultList.get(0);
-}
+        Session session = DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        Query<Orders> query = session.createQuery("from Orders order where order.id=:id", Orders.class);
+        query.setParameter("id", id);
+        List<Orders> resultList = query.getResultList();
+        transaction.commit();
+        session.close();
+        return resultList.get(0);
+    }
+
     public int deleteOrder(int id) throws SQLException {
        /* if (getConnection() != null) {
             String sql = String.format("DELETE  FROM online_shop.order WHERE idOrder=%d;", id);
@@ -102,6 +104,7 @@ public Orders getOrderById(int id) throws SQLException {
         return 1;
 
     }
+
     public int UpdateOrders(int id) throws SQLException {
        /* if (getConnection() != null) {
             String sql = String.format("UPDATE online_shop.order SET status='%s' WHERE idUser=%d;", BuyStatus.END.getTitle(),id);
@@ -115,12 +118,13 @@ public Orders getOrderById(int id) throws SQLException {
         return  -1;*/
         Session session = DataBaseAccess.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        Orders orders=getOrderById(id);
-        orders.setStatus(BuyStatus.END.getTitle());
-        session.update(orders);
+        Query<Orders> query = session.createQuery("update Orders order set order.status=:status where order.id=:id", Orders.class);
+        query.setParameter("status", BuyStatus.END);
+        query.setParameter("id", id);
+        int result = query.executeUpdate();
         transaction.commit();
         session.close();
-        return 1;
+        return result;
     }
 
 

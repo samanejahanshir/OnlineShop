@@ -1,15 +1,11 @@
 package database;
 
-import models.Electronics;
 import models.Shoes;
-import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public class ShoesDao extends  DataBaseAccess{

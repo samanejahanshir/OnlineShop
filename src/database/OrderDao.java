@@ -20,7 +20,7 @@ public class OrderDao extends DataBaseAccess {
 
     public List<Orders> getListOrders(int id) throws SQLException {
         List<Orders> ordersList = new ArrayList<>();
-        if (getConnection() != null) {
+       /* if (getConnection() != null) {
             String sql = String.format("SELECT * FROM online_shop.order WHERE idUser=%d AND status='waiting';", id);
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -32,7 +32,7 @@ public class OrderDao extends DataBaseAccess {
                 } while (resultSet.next());
             }
 
-        }
+        }*/
         return ordersList;
     }
 

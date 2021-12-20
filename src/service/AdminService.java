@@ -47,58 +47,64 @@ public class AdminService {
             String name = scanner.next();
             System.out.println("price :");
             int price = scanner.nextInt();
-            if(CheckInputValidation.checkName(name)) {
+            if (CheckInputValidation.checkName(name)) {
                /* if (Shop.productsDao.getProduct(new Products(name, price)) != -1) {
                     System.out.println("** this product is exist ");
                 } else {*/
-                    System.out.println("stock of product : ");
-                    int stock = scanner.nextInt();
-                    System.out.println("select grouping : \n1.Electronic\n2.Shoes\n3.Reading");
-                    int groupNum = scanner.nextInt();
-                    String grouping;
-                    Products products;
-                    switch (groupNum) {
-                        case 1:
-                            grouping = Grouping.ELECTRONIC.getTitle();
-                            break;
-                        case 2:
-                            grouping = Grouping.SHOES.getTitle();
-                            break;
-                        case 3:
-                            grouping = Grouping.READING.getTitle();
-                            break;
-                        default:
-                            throw new InvalidInputExp("==> enter 1 - 3 for grouping!");
-
-                    }
-                    products = new Products(name, price, stock, grouping);
-                    Shop.productsDao.setProduct(products);
-                 /*  int idProduct = Shop.productsDao.getProduct(products);
-                    if (idProduct != -1) {*/
-                      // products.setIdProduct(idProduct);
-                        int id = -1;
-                        switch (grouping) {
-                            case "Electronic":
-                                id = Shop.electronicDao.setElectronic(setElectronicProduct(products));
-                                break;
-                            case "Shoes":
-                                id = Shop.shoesDao.setShoes(setShoesProduct(products));
-                                break;
-                            case "Reading":
-                                id = Shop.readingDao.setReading(setReadingProduct(products));
-                                break;
-
-                        }
-                       // if (id != -1) {
-                            System.out.println("add product was successfully");
-                       // } else {
-                            //System.out.println("add product was failed");
-                       // }
-
-                    //}
+                System.out.println("stock of product : ");
+                int stock = scanner.nextInt();
+                System.out.println("select grouping : \n1.Electronic\n2.Shoes\n3.Reading");
+                int groupNum = scanner.nextInt();
+                String grouping;
+                Products products = new Products();
+                switch (groupNum) {
+                    case 1:
+                        grouping = Grouping.ELECTRONIC.getTitle();
+                        break;
+                    case 2:
+                        grouping = Grouping.SHOES.getTitle();
+                        break;
+                    case 3:
+                        grouping = Grouping.READING.getTitle();
+                        break;
+                    default:
+                        throw new InvalidInputExp("==> enter 1 - 3 for grouping!");
 
                 }
+                // products = new Products();
+                products.setName(name);
+                products.setPrice(price);
+                products.setStock(stock);
+                products.setProductGroup(grouping);
+
+                // Shop.productsDao.setProduct(products);
+                 /*  int idProduct = Shop.productsDao.getProduct(products);
+                    if (idProduct != -1) {*/
+                // products.setIdProduct(idProduct);
+                int id = -1;
+                switch (grouping) {
+                    case "Electronic":
+                        Electronics electronics = setElectronicProduct(products);
+                        id = Shop.electronicDao.setElectronic(electronics);
+                        break;
+                    case "Shoes":
+                        id = Shop.shoesDao.setShoes(setShoesProduct(products));
+                        break;
+                    case "Reading":
+                        id = Shop.readingDao.setReading(setReadingProduct(products));
+                        break;
+
+                }
+                // if (id != -1) {
+                System.out.println("add product was successfully");
+                // } else {
+                //System.out.println("add product was failed");
+                // }
+
+                //}
+
             }
+        }
         //}
 
 
@@ -108,13 +114,13 @@ public class AdminService {
         try {
             System.out.println("enter id of product : ");
             int idProduct = scanner.nextInt();
-            Products products=Shop.productsDao.getProductById(idProduct);
-            if (products!=null){
-                if(Shop.productsDao.removeProduct(products)){
+            Products products = Shop.productsDao.getProductById(idProduct);
+            if (products != null) {
+                if (Shop.productsDao.removeProduct(products)) {
                     System.out.println("delete product was successfully . ");
                 }
             }
-        }catch (NumberFormatException | SQLException | InputMismatchException e){
+        } catch (NumberFormatException | SQLException | InputMismatchException e) {
             System.out.println(e.getMessage());
             scanner.nextLine();
         }
@@ -122,29 +128,38 @@ public class AdminService {
     }
 
     public Electronics setElectronicProduct(Products products) {
-                System.out.println("size : ");
-                String size = scanner.next();
-                System.out.println("pow : ");
-                String pow = scanner.next();
-                System.out.println("possibilities :");
-                String possibilities = scanner.next();
-                System.out.println("type :\n1.Television\n2.Radio");
-                int selectType = scanner.nextInt();
-                String type;
-                switch (selectType) {
-                    case 1:
-                        type = ElectronicType.TELEVISION.getTitle();
-                        break;
-                    case 2:
-                        type = ElectronicType.RADIO.getTitle();
-                        break;
-                    default:
-                        throw new InvalidInputExp("select 1 or 2 for type electronic");
+        System.out.println("size : ");
+        String size = scanner.next();
+        System.out.println("pow : ");
+        String pow = scanner.next();
+        System.out.println("possibilities :");
+        String possibilities = scanner.next();
+        System.out.println("type :\n1.Television\n2.Radio");
+        int selectType = scanner.nextInt();
+        String type;
+        switch (selectType) {
+            case 1:
+                type = ElectronicType.TELEVISION.getTitle();
+                break;
+            case 2:
+                type = ElectronicType.RADIO.getTitle();
+                break;
+            default:
+                throw new InvalidInputExp("select 1 or 2 for type electronic");
 
-                }
+        }
+        Electronics electronics = new Electronics();
+        electronics.setName(products.getName());
+        electronics.setPow(pow);
+        electronics.setPossibilities(possibilities);
+        electronics.setSize(size);
+        electronics.setType(type);
+        electronics.setProductGroup(products.getProductGroup());
+        electronics.setStock(products.getStock());
+        electronics.setPrice(products.getPrice());
 
-       return new Electronics(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), size, pow, possibilities, type,products.getIdProduct());
-
+        //return new Electronics(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), size, pow, possibilities, type);
+        return electronics;
 
     }
 
@@ -167,9 +182,17 @@ public class AdminService {
                 throw new InvalidInputExp("select 1 or 2 for type electronic");
 
         }
+        Shoes shoes = new Shoes();
+        shoes.setColor(color);
+        shoes.setSize(size);
+        shoes.setType(type);
+        shoes.setName(products.getName());
+        shoes.setStock(products.getStock());
+        shoes.setPrice(products.getPrice());
+        shoes.setProductGroup(products.getProductGroup());
 
-        return new Shoes(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), size, color, type,products.getIdProduct());
-
+        //   return new Shoes(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), size, color, type);
+        return shoes;
 
     }
 
@@ -194,9 +217,17 @@ public class AdminService {
                 throw new InvalidInputExp("select 1 or 2 for type electronic");
 
         }
+        Reading reading = new Reading();
+        reading.setPages(pages);
+        reading.setMaterial(material);
+        reading.setType(type);
+        reading.setStock(products.getStock());
+        reading.setProductGroup(products.getProductGroup());
+        reading.setName(products.getName());
+        reading.setPrice(products.getPrice());
 
-        return new Reading(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), pages,size,material, type,products.getIdProduct());
-
+        // return new Reading(products.getName(), products.getPrice(), products.getStock(), products.getGrouping(), pages,size,material, type);
+        return reading;
 
     }
 }

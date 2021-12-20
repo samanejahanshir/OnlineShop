@@ -12,7 +12,7 @@ public class AddressDao extends  DataBaseAccess{
     }
     public int setAddress(Set<Address> addressSet) throws SQLException {
         int i=-1;
-        if(getConnection()!=null) {
+       /* if(getConnection()!=null) {
             for (Address address : addressSet) {
                 String sql = String.format("insert into address (id_user,city,postal_code,tag,street) values(%d,'%s','%s','%s','%s')",address.getUserId(),address.getCity(),address.getPostalCode(),address.getTag(),address.getStreet());
                 Statement statement = getConnection().createStatement();
@@ -21,6 +21,6 @@ public class AddressDao extends  DataBaseAccess{
 
         }
         return i;
-
+*/return  i;
     }
 }

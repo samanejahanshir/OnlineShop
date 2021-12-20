@@ -133,7 +133,7 @@ public class ProductsDao extends DataBaseAccess {
     }
 
     public String getDetailProduct(String type, int id) throws SQLException {
-        if (getConnection() != null) {
+     /*   if (getConnection() != null) {
             String sql = "";
             boolean electronic=false,reading=false,shoes=false;
             if (type.equals(Grouping.ELECTRONIC.getTitle())) {
@@ -167,7 +167,27 @@ public class ProductsDao extends DataBaseAccess {
                 }
 
             }
+        }*/
+        Session session=DataBaseAccess.getSessionFactory().openSession();
+        Transaction t=session.beginTransaction();
+        Query query=null;
+        boolean isElectronic=false,isReading=false,isShoes=false;
+        if(type.equalsIgnoreCase(Grouping.ELECTRONIC.getTitle())){
+            query=session.createQuery("from Electronics where id=:id",Electronics.class);
+            isElectronic=true;
+
+        }else if(type.equalsIgnoreCase(Grouping.READING.getTitle())){
+            query=session.createQuery("from Reading where id=:id",Reading.class);
+            isReading=true;
+
+        }else{
+            query=session.createQuery("from Shoes where id=:id",Shoes.class);
+            isShoes=true;
         }
+        query.setParameter("id",id);
+
+
+
         return null;
 
     }

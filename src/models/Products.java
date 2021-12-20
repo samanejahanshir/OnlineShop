@@ -2,40 +2,42 @@ package models;
 
 import javax.persistence.*;
 
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+//@MappedSuperclass
 public class Products {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private  int idProduct;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private  int id;
     private  String name;
     private int price;
     private int stock;
-    private String grouping;
+    private String productGroup;
 
-    public Products(String name, int price, int stock, String grouping) {
+  /*  public Products(String name, int price, int stock, String grouping) {
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.grouping = grouping;
 
-    }
+    }*/
 
-    public Products(String name, int price) {
+   /* public Products(String name, int price) {
         this.name = name;
         this.price = price;
-    }
+    }*/
 
     public Products() {
 
     }
 
-    public int getIdProduct() {
-        return idProduct;
+    public int getId() {
+        return id;
     }
 
-    public void setIdProduct(int idProduct) {
-        this.idProduct = idProduct;
+    public void setId(int idProduct) {
+        this.id = idProduct;
     }
 
     public String getName() {
@@ -62,23 +64,23 @@ public class Products {
         this.stock = stock;
     }
 
-    public String getGrouping() {
-        return grouping;
+    public String getProductGroup() {
+        return productGroup;
     }
 
-    public void setGrouping(String grouping) {
-        this.grouping = grouping;
+    public void setProductGroup(String grouping) {
+        this.productGroup = grouping;
     }
 
 
     @Override
     public String toString() {
         return "Products{" +
-                "idProduct=" + idProduct +
+                "idProduct=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
-                ", grouping='" + grouping + '\'' +
+                ", grouping='" + productGroup + '\'' +
                 '}';
     }
 }

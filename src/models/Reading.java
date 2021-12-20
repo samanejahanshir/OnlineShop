@@ -4,34 +4,34 @@ import javax.persistence.Entity;
 
 @Entity
 public class Reading extends Products{
-    private  int id;
-    private int idProduct;
+  //  private  int id;
+   // private int idProduct;
     private  int pages;
     private  String size;
     private String material;
     private  String type;
 
 
-    public Reading(String name, int price, int stock, String grouping, int pages, String size, String material, String type1,int idProduct) {
+    /*public Reading(String name, int price, int stock, String grouping, int pages, String size, String material, String type1) {
         super(name, price, stock, grouping);
         this.pages = pages;
         this.size = size;
         this.material = material;
         this.type = type1;
-        this.idProduct=idProduct;
-    }
+       // this.idProduct=idProduct;
+    }*/
 
     public Reading() {
 
     }
 
-    public int getIdProduct() {
+  /*  public int getIdProduct() {
         return idProduct;
     }
 
     public void setIdProduct(int idProduct) {
         this.id = idProduct;
-    }
+    }*/
 
     public int getPages() {
         return pages;
@@ -70,7 +70,7 @@ public class Reading extends Products{
                 ", Name='" +getName() +'\''+
                 ", price='" +getPrice() +'\''+
                 ", stock='" +getStock() +'\''+
-                ", idProduct=" + idProduct +
+              //  ", idProduct=" + idProduct +
                 ", size='" + size + '\'' +
                 ", pages='" + pages + '\'' +
                 ", material='" + material + '\'' +

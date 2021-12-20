@@ -9,7 +9,6 @@ import models.Products;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -235,7 +234,7 @@ public class UserService {
         }
         System.out.println("---------------- Products ---------------");
         for (Products listProduct : Shop.productsDao.getListProducts()) {
-            if(listProduct.getGrouping().equals(type)) {
+            if(listProduct.getProductGroup().equals(type)) {
                 System.out.println(listProduct);
             }
         }
@@ -249,7 +248,7 @@ public class UserService {
             int idProduct = scanner.nextInt();
             Products products=Shop.productsDao.getProductById(idProduct);
             if(products!=null) {
-                String detail = Shop.productsDao.getDetailProduct(products.getGrouping(),idProduct);
+                String detail = Shop.productsDao.getDetailProduct(products.getProductGroup(),idProduct);
                 System.out.println("---------------  Detail  ---------------");
                 System.out.println(detail);
                 System.out.println("----------------------------------------");

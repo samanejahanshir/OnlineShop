@@ -14,7 +14,7 @@ public class Orders {
     private int productId;
     private LocalDateTime date;
     private String status;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User user;
 
     public Orders() {

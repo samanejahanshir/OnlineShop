@@ -1,6 +1,8 @@
 package models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 @Entity
 public class User {
@@ -12,6 +14,8 @@ public class User {
     private String email;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "user")
     private Set<Address> addresses;
+    @OneToMany(mappedBy = "user")
+    private List<Orders> orders=new ArrayList<>();
 
     public User(String name, String password, String email) {
         this.name = name;

@@ -1,10 +1,7 @@
 package service;
 
 import exceptions.InvalidInputExp;
-import models.BuyStatus;
-import models.Grouping;
-import models.Orders;
-import models.Products;
+import models.*;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -16,10 +13,10 @@ import java.util.Scanner;
 public class UserService {
     boolean exit = false;
     Scanner scanner = new Scanner(System.in);
-    public int idUser;
+    public User user;
 
-    public UserService(int idUser) {
-        this.idUser = idUser;
+    public UserService(User user) {
+        this.user = user;
     }
 
     public void showMenu() {
@@ -82,7 +79,7 @@ public class UserService {
         boolean exit = false;
         long totalPrice = 0;
         while (!exit) {
-            List<Orders> ordersList = Shop.orderDao.getListOrders(idUser);
+            List<Orders> ordersList = Shop.orderDao.getListOrders(user.getId());
             if(ordersList.isEmpty()){
                 System.out.println("-------------------------");
                 System.out.println("your Buy Basket is empty . ");
@@ -124,13 +121,15 @@ public class UserService {
 
     public void addToBuyBasket() {
         try {
-            List<Orders> orders=Shop.orderDao.getListOrders(idUser);
+            List<Orders> orders=Shop.orderDao.getListOrders(user.getId());
             if(orders.size()<5) {
                 System.out.println("enter id of product : ");
                 int idProduct = scanner.nextInt();
                 Products products = Shop.productsDao.getProductById(idProduct);
                 if (products != null && products.getStock()>0) {
-                    Orders order = new Orders(idUser, idProduct, BuyStatus.WAITING.getTitle());
+                    Orders order = new Orders(user.getId(), idProduct, BuyStatus.WAITING.getTitle());
+                    user.getOrders().add(order);
+                    order.setUser(user);
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                     LocalDateTime now = LocalDateTime.now();
                     order.setDate(now);
@@ -193,7 +192,7 @@ public class UserService {
 
     public void confirmBuyBasket(List<Orders> ordersList) throws SQLException {
 
-        if (Shop.orderDao.UpdateOrders(idUser) != -1) {
+        if (Shop.orderDao.UpdateOrders(user.getId()) != -1) {
             System.out.println("Confirmation was successfully");
             for (Orders orders : ordersList) {
                 Products products=Shop.productsDao.getProductById(orders.getProductId());

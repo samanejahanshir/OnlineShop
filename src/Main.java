@@ -129,7 +129,7 @@ public class Main {
             } else {
                 user=Shop.userDao.getUser(user);
                 if(user!=null){
-                    UserService userService=new UserService(user.getId());
+                    UserService userService=new UserService(user);
                     userService.showMenu();
                 }else {
                     System.out.println("this user not exist ! ");

@@ -2,7 +2,10 @@ package models;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 public class Orders {
     @Id
@@ -16,9 +19,19 @@ public class Orders {
     private String status;
     @ManyToOne
     private User user;
+    @OneToOne
+    private Products products;
 
     public Orders() {
 
+    }
+
+    public Products getProducts() {
+        return products;
+    }
+
+    public void setProducts(Products products) {
+        this.products = products;
     }
 
     public User getUser() {
@@ -79,8 +92,6 @@ public class Orders {
     public String toString() {
         return "Orders{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", productId=" + productId +
                 ", date=" + date +
                 ", status='" + status + '\'' +
                 '}';

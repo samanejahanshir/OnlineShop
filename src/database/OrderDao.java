@@ -33,6 +33,13 @@ public class OrderDao extends DataBaseAccess {
             }
 
         }*/
+        Session session=DataBaseAccess.getSessionFactory().openSession();
+        Transaction transaction=session.beginTransaction();
+        Query<Orders> query = session.createQuery("from Orders order where order.user.id=:id", Orders.class);
+        query.setParameter("id",id);
+        ordersList = query.getResultList();
+        transaction.commit();
+        session.close();
         return ordersList;
     }
 

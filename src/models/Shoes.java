@@ -64,6 +64,7 @@ public class Shoes extends  Products{
     @Override
     public String toString() {
         return "Electronics{" +
+                ", id='" +getId() +'\''+
                 ", Name='" +getName() +'\''+
                 ", price='" +getPrice() +'\''+
                 ", stock='" +getStock() +'\''+

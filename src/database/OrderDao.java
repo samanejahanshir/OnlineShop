@@ -2,14 +2,11 @@ package database;
 
 import models.BuyStatus;
 import models.Orders;
-import models.Products;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +32,9 @@ public class OrderDao extends DataBaseAccess {
         }*/
         Session session = DataBaseAccess.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        Query<Orders> query = session.createQuery("from Orders order where order.user.id=:id", Orders.class);
+        Query<Orders> query = session.createQuery("from Orders order where order.user.id=:id and order.status=:status", Orders.class);
         query.setParameter("id", id);
+        query.setParameter("status", BuyStatus.WAITING);
         ordersList = query.getResultList();
         transaction.commit();
         session.close();
@@ -105,7 +103,7 @@ public class OrderDao extends DataBaseAccess {
 
     }
 
-    public int UpdateOrders(int id) throws SQLException {
+    public int UpdateOrders(Orders orders) throws SQLException {
        /* if (getConnection() != null) {
             String sql = String.format("UPDATE online_shop.order SET status='%s' WHERE idUser=%d;", BuyStatus.END.getTitle(),id);
             Statement statement = getConnection().createStatement();
@@ -118,13 +116,15 @@ public class OrderDao extends DataBaseAccess {
         return  -1;*/
         Session session = DataBaseAccess.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
-        Query<Orders> query = session.createQuery("update Orders order set order.status=:status where order.id=:id", Orders.class);
+       /* Query<Orders> query = session.createQuery("update Orders order set order.status=:status where order.user.id=:id", Orders.class);
         query.setParameter("status", BuyStatus.END);
-        query.setParameter("id", id);
-        int result = query.executeUpdate();
+        query.setParameter("id", id);*/
+       // int result = query.executeUpdate();
+        orders.setStatus(BuyStatus.END);
+        session.update(orders);
         transaction.commit();
         session.close();
-        return result;
+        return  1;
     }
 
 

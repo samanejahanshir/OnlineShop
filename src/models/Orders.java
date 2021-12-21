@@ -11,12 +11,9 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Transient
-    private int userId;
-    @Transient
-    private int productId;
     private LocalDateTime date;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private BuyStatus status;
     @ManyToOne
     private User user;
     @OneToOne
@@ -42,9 +39,7 @@ public class Orders {
         this.user = user;
     }
 
-    public Orders(int userId, int productId, String status) {
-        this.userId = userId;
-        this.productId = productId;
+    public Orders(BuyStatus status) {
         this.status = status;
     }
 
@@ -56,22 +51,6 @@ public class Orders {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
     public LocalDateTime getDate() {
         return date;
     }
@@ -80,11 +59,11 @@ public class Orders {
         this.date = date;
     }
 
-    public String getStatus() {
+    public BuyStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(BuyStatus status) {
         this.status = status;
     }
 

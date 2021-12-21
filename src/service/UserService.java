@@ -47,47 +47,53 @@ public class UserService {
     }
 
     public void showListProducts() throws SQLException {
-        boolean exit=false;
-        System.out.println("---------------- Products ---------------");
-        for (Products listProduct : Shop.productsDao.getListProducts()) {
-            System.out.println(listProduct.toString());
+        boolean exit = false;
+        List<Products> listProducts = Shop.productsDao.getListProducts();
+        if(listProducts.isEmpty()){
+            System.out.println("there is nothing to show .");
         }
-        System.out.println("------------------------------------");
-        while (!exit) {
-            System.out.println("1.add to buy basket\n2.Show by grouping\n3.Show product's detail\n4.exit");
-            int selectNum = scanner.nextInt();
-            switch (selectNum) {
-                case 1:
-                    addToBuyBasket();
-                    break;
-                case 2:
-                    showByGrouping();
-                    break;
-                case 3:
-                    showProductsDetail();
-                    break;
-                case 4:
-                    exit=true;
-                    break;
-                default:
-                    throw new InvalidInputExp("enter 1 - 3 for add to but basket or exit");
+        else {
+            System.out.println("---------------- Products ---------------");
+            for (Products listProduct : listProducts) {
+                System.out.println(listProduct.toString());
+            }
+            System.out.println("------------------------------------");
+            while (!exit) {
+                System.out.println("1.add to buy basket\n2.Show by grouping\n3.Show product's detail\n4.exit");
+                int selectNum = scanner.nextInt();
+                switch (selectNum) {
+                    case 1:
+                        addToBuyBasket();
+                        break;
+                    case 2:
+                        showByGrouping();
+                        break;
+                    case 3:
+                        showProductsDetail();
+                        break;
+                    case 4:
+                        exit = true;
+                        break;
+                    default:
+                        throw new InvalidInputExp("enter 1 - 3 for add to but basket or exit");
+                }
             }
         }
     }
 
     public void showBuyBasket() throws SQLException {
         boolean exit = false;
-        long totalPrice = 0;
         while (!exit) {
+            long totalPrice = 0;
             List<Orders> ordersList = Shop.orderDao.getListOrders(user.getId());
-            if(ordersList.isEmpty()){
+            if (ordersList.isEmpty()) {
                 System.out.println("-------------------------");
                 System.out.println("your Buy Basket is empty . ");
                 System.out.println("-------------------------");
 
-                exit=true;
-            }else {
-                System.out.println("number of orders : "+ ordersList.size());
+                exit = true;
+            } else {
+                System.out.println("number of orders : " + ordersList.size());
                 System.out.println("---------------------------");
                 for (Orders orders : ordersList) {
                     Products products = Shop.productsDao.getProductById(orders.getProducts().getId());
@@ -106,7 +112,7 @@ public class UserService {
                         break;
                     case 2:
                         confirmBuyBasket(ordersList);
-                        exit=true;
+                        exit = true;
                         break;
                     case 3:
                         exit = true;
@@ -121,13 +127,13 @@ public class UserService {
 
     public void addToBuyBasket() {
         try {
-            List<Orders> orders=Shop.orderDao.getListOrders(user.getId());
-            if(orders.size()<5) {
+            List<Orders> orders = Shop.orderDao.getListOrders(user.getId());
+            if (orders.size() < 5) {
                 System.out.println("enter id of product : ");
                 int idProduct = scanner.nextInt();
                 Products products = Shop.productsDao.getProductById(idProduct);
-                if (products != null && products.getStock()>0) {
-                    Orders order = new Orders(user.getId(), idProduct, BuyStatus.WAITING.getTitle());
+                if (products != null && products.getStock() > 0) {
+                    Orders order = new Orders(BuyStatus.WAITING);
                     user.getOrders().add(order);
                     order.setUser(user);
                     order.setProducts(products);
@@ -145,7 +151,7 @@ public class UserService {
                 } else {
                     System.out.println("this product not found");
                 }
-            }else{
+            } else {
                 System.out.println("your Buy Basket is full ! ");
             }
         } catch (NumberFormatException | SQLException e) {
@@ -165,9 +171,10 @@ public class UserService {
                     case 1:
                         System.out.println("Enter id of order");
                         int idProduct = scanner.nextInt();
-                        Orders orders=Shop.orderDao.getOrderById(idProduct);
-                        if ( orders!= null) {
+                        Orders orders = Shop.orderDao.getOrderById(idProduct);
+                        if (orders != null) {
                             if (Shop.orderDao.deleteOrder(idProduct) != -1) {
+
                                 System.out.println("Delete  item was successfully");
                             }
                         } else {
@@ -192,69 +199,67 @@ public class UserService {
     }
 
     public void confirmBuyBasket(List<Orders> ordersList) throws SQLException {
-
-        if (Shop.orderDao.UpdateOrders(user.getId()) != -1) {
-            System.out.println("Confirmation was successfully");
-            for (Orders orders : ordersList) {
-                Products products=Shop.productsDao.getProductById(orders.getProductId());
-                Shop.productsDao.UpdateProduct(orders.getProductId(),products.getStock()-1);
-            }
-            System.out.println("Update stock of products");
-            System.out.println("---------------------------------");
-
-        } else {
-            System.out.println("Confirmation was failed ! ");
+        for (Orders orders : ordersList) {
+            Shop.orderDao.UpdateOrders(orders);
+            Products products = Shop.productsDao.getProductById(orders.getProducts().getId());
+            Shop.productsDao.UpdateProduct(orders.getProducts().getId(), products.getStock() - 1);
         }
+        System.out.println("Update stock of products");
+        System.out.println("buying was finished");
+        System.out.println("---------------------------------");
+
 
     }
+
     public void showByGrouping() throws SQLException {
         System.out.println("Grouping : \n1.Electronics\n2.Shoes\n3.Reading\n4.exit");
-        String type="";
+        String type = "";
         try {
             int selectNum = scanner.nextInt();
-            switch (selectNum){
+            switch (selectNum) {
                 case 1:
-                    type= Grouping.ELECTRONIC.getTitle();
+                    type = Grouping.ELECTRONIC.getTitle();
                     break;
                 case 2:
-                    type=Grouping.SHOES.getTitle();
+                    type = Grouping.SHOES.getTitle();
                     break;
                 case 3:
-                    type=Grouping.READING.getTitle();
+                    type = Grouping.READING.getTitle();
                     break;
                 case 4:
                 default:
                     throw new InvalidInputExp("enter 1 - 4 !");
 
             }
-        }catch (InvalidInputExp | NumberFormatException | InputMismatchException e){
+        } catch (InvalidInputExp | NumberFormatException | InputMismatchException e) {
             System.out.println(e.getMessage());
             scanner.nextLine();
 
         }
         System.out.println("---------------- Products ---------------");
         for (Products listProduct : Shop.productsDao.getListProducts()) {
-            if(listProduct.getProductGroup().equals(type)) {
+            if (listProduct.getProductGroup().equals(type)) {
                 System.out.println(listProduct);
             }
         }
         System.out.println("------------------------------------");
 
     }
+
     public void showProductsDetail() throws SQLException {
         boolean exit = false;
         System.out.println("enter id of product : ");
         try {
             int idProduct = scanner.nextInt();
-            Products products=Shop.productsDao.getProductById(idProduct);
-            if(products!=null) {
-                String detail = Shop.productsDao.getDetailProduct(products.getProductGroup(),idProduct);
+            Products products = Shop.productsDao.getProductById(idProduct);
+            if (products != null) {
+                String detail = Shop.productsDao.getDetailProduct(products.getProductGroup(), idProduct);
                 System.out.println("---------------  Detail  ---------------");
                 System.out.println(detail);
                 System.out.println("----------------------------------------");
 
             }
-        }catch (NumberFormatException | InputMismatchException e){
+        } catch (NumberFormatException | InputMismatchException e) {
             System.out.println(e.getMessage());
             scanner.nextLine();
 

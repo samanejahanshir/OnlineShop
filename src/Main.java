@@ -127,12 +127,16 @@ public class Main {
                 AdminService adminService = new AdminService();
                 adminService.showMenu();
             } else {
-                user=Shop.userDao.getUser(user);
-                if(user!=null){
-                    UserService userService=new UserService(user.getId());
-                    userService.showMenu();
-                }else {
-                    System.out.println("this user not exist ! ");
+                try {
+                    user = Shop.userDao.getUser(user);
+                    if (user != null) {
+                        UserService userService = new UserService(user);
+                        userService.showMenu();
+                    } else {
+                        System.out.println("this user not exist ! ");
+                    }
+                }catch (IndexOutOfBoundsException e){
+                    System.out.println(e.getMessage());
                 }
 
             }

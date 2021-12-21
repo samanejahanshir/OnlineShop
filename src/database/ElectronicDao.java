@@ -1,15 +1,11 @@
 package database;
 
 import models.Electronics;
-import models.Orders;
-import models.Products;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public class ElectronicDao extends DataBaseAccess {
@@ -54,7 +50,7 @@ public class ElectronicDao extends DataBaseAccess {
         Session session=DataBaseAccess.getSessionFactory().openSession();
         Transaction transaction=session.beginTransaction();
         Query<Electronics> query = session.createQuery("from Electronics e where e.id=:id", Electronics.class);
-        query.setParameter("id",electronics.getIdProduct());
+        query.setParameter("id",electronics.getId());
         List<Electronics> resultList = query.getResultList();
         transaction.commit();
         session.close();

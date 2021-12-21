@@ -2,23 +2,33 @@ package models;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Transient
-    private int userId;
-    @Transient
-    private int productId;
     private LocalDateTime date;
-    private String status;
-    @OneToOne(cascade = CascadeType.ALL)
+    @Enumerated(EnumType.STRING)
+    private BuyStatus status;
+    @ManyToOne
     private User user;
+    @OneToOne
+    private Products products;
 
     public Orders() {
 
+    }
+
+    public Products getProducts() {
+        return products;
+    }
+
+    public void setProducts(Products products) {
+        this.products = products;
     }
 
     public User getUser() {
@@ -29,9 +39,7 @@ public class Orders {
         this.user = user;
     }
 
-    public Orders(int userId, int productId, String status) {
-        this.userId = userId;
-        this.productId = productId;
+    public Orders(BuyStatus status) {
         this.status = status;
     }
 
@@ -43,22 +51,6 @@ public class Orders {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
     public LocalDateTime getDate() {
         return date;
     }
@@ -67,11 +59,11 @@ public class Orders {
         this.date = date;
     }
 
-    public String getStatus() {
+    public BuyStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(BuyStatus status) {
         this.status = status;
     }
 
@@ -79,8 +71,6 @@ public class Orders {
     public String toString() {
         return "Orders{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", productId=" + productId +
                 ", date=" + date +
                 ", status='" + status + '\'' +
                 '}';

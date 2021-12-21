@@ -4,39 +4,39 @@ import javax.persistence.Entity;
 
 @Entity
 public class Shoes extends  Products{
-    private  int id;
-    private int idProduct;
+   // private  int id;
+   // private int idProduct;
     private String size;
     private String color;
     private String type;
 
-    public Shoes(String name, int price, int stock, String grouping, String size, String color, String type,int idProduct) {
+   /* public Shoes(String name, int price, int stock, String grouping, String size, String color, String type) {
         super(name, price, stock, grouping);
         this.size = size;
         this.color = color;
         this.type = type;
-        this.idProduct=idProduct;
-    }
+        //this.idProduct=idProduct;
+    }*/
 
     public Shoes() {
 
     }
 
-    public int getId() {
+   /* public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
+    }*/
 
-    public int getIdProduct() {
+  /*  public int getIdProduct() {
         return idProduct;
     }
-
-    public void setIdProduct(int idProduct) {
+*/
+   /* public void setIdProduct(int idProduct) {
         this.id = idProduct;
-    }
+    }*/
 
     public String getSize() {
         return size;
@@ -64,10 +64,11 @@ public class Shoes extends  Products{
     @Override
     public String toString() {
         return "Electronics{" +
+                ", id='" +getId() +'\''+
                 ", Name='" +getName() +'\''+
                 ", price='" +getPrice() +'\''+
                 ", stock='" +getStock() +'\''+
-                ", idProduct=" + idProduct +
+               // ", idProduct=" + idProduct +
                 ", size='" + size + '\'' +
                 ", color='" + color + '\'' +
                 ", type='" + type + '\'' +

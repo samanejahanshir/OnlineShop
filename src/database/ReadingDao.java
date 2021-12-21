@@ -1,14 +1,11 @@
 package database;
 
 import models.Reading;
-import models.Shoes;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public class ReadingDao extends  DataBaseAccess{
@@ -51,7 +48,7 @@ public class ReadingDao extends  DataBaseAccess{
         Session session=DataBaseAccess.getSessionFactory().openSession();
         Transaction transaction=session.beginTransaction();
         Query<Reading> query = session.createQuery("from Reading reading where reading.id=:id", Reading.class);
-        query.setParameter("id",reading.getIdProduct());
+        query.setParameter("id",reading.getId());
         List<Reading> resultList = query.getResultList();
         transaction.commit();
         session.close();
